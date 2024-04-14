@@ -1,0 +1,16 @@
+{
+  "name": "poopsite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "handlebars public/components/button/button.handlebars public/components/inputField/inputField.handlebars public/components/terrain/terrain.handlebars -f public/templates.precompiled.js",
+    "start": "node server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "BazaleevFedor",
+  "license": "MIT",
+  "dependencies": {
+    "handlebars": "^4.7.8"
+  }
+}
