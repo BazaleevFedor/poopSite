@@ -1,5 +1,7 @@
 import sidebarHTML from './sidebar.html';
 
+const BANNER_MAX_HEIGHT = 200;
+
 const adblockImg = [
     '1BPSBsejvqc.jpg',
     '2-MXF7HN4zU.jpg',
@@ -36,7 +38,7 @@ export class Sidebar {
         this.clear();
 
         for (let i = 0; i < 5; i++) {
-            this._view.innerHTML += `<img class="sidebar__item" alt="реклама" src="/static/img/adblock/${ adblockImg[Math.floor(Math.random() * (adblockImg.length))] }">`
+            this._view.innerHTML += `<img class="sidebar__item" alt="реклама" src="/static/img/adblock/${ adblockImg[Math.floor(Math.random() * (adblockImg.length))] }">`;
         }
     }
 

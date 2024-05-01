@@ -1,8 +1,7 @@
 import Dispatcher from '../dispatcher/dispatcher';
-import Ajax from "../modules/ajax";
+import Ajax from '../modules/ajax';
 
 type FilesData = {
-
 };
 
 class filesStore {

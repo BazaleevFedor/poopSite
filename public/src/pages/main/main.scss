@@ -1,9 +1,44 @@
 .main {
     height: 100%;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+
+    .content {
+        padding: 16px;
+
+        .logo {
+            font-family: Montserrat, sans-serif;
+            font-size: 26px;
+
+            &__blue {
+                color: blue;
+            }
+
+            &__red {
+                color: red;
+            }
+
+            &__yellow {
+                color: yellow;
+            }
+
+            &__green {
+                color: green;
+            }
+        }
+    }
 
     .sidebar-wrapper {
         width: 250px;
         height: 100%;
         background: #2c3e50;
+    }
+
+    .profile-wrapper {
+        position: fixed;
+        width: 50px;
+        height: 50px;
+        top: 0;
+        right: 0;
     }
 }

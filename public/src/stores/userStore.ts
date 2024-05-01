@@ -1,5 +1,5 @@
 import Dispatcher from '../dispatcher/dispatcher';
-import Ajax from "../modules/ajax";
+import Ajax from '../modules/ajax';
 
 type UserData = {
     isAuth: boolean,

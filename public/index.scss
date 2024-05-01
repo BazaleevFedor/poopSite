@@ -5,33 +5,38 @@
 @import "src/pages/main/main";
 
 @font-face {
-    font-family: Limelight; /* Имя шрифта */
-    src: url(static/fonts/Limelight-Regular.ttf); /* Путь к файлу со шрифтом */
+    font-family: Limelight;
+    src: url(static/fonts/Limelight-Regular.ttf);
 }
 
 @font-face {
-    font-family: InterMedium; /* Имя шрифта */
-    src: url(static/fonts/Inter-Medium.ttf); /* Путь к файлу со шрифтом */
+    font-family: InterMedium;
+    src: url(static/fonts/Inter-Medium.ttf);
 }
 
 @font-face {
-    font-family: InterRegular; /* Имя шрифта */
-    src: url(static/fonts/Inter-Regular.ttf); /* Путь к файлу со шрифтом */
+    font-family: InterRegular;
+    src: url(static/fonts/Inter-Regular.ttf);
 }
 
 @font-face {
-    font-family: MailSansRoman; /* Имя шрифта */
-    src: url(static/fonts/MailSansRoman-Medium.ttf); /* Путь к файлу со шрифтом */
+    font-family: MailSansRoman;
+    src: url(static/fonts/MailSansRoman-Medium.ttf);
 }
 
 @font-face {
-    font-family: Comfortaa; /* Имя шрифта */
-    src: url(static/fonts/Comfortaa-Medium.ttf); /* Путь к файлу со шрифтом */
+    font-family: Comfortaa;
+    src: url(static/fonts/Comfortaa-Medium.ttf);
 }
 
 @font-face {
-    font-family: Montserrat; /* Имя шрифта */
-    src: url(static/fonts/Montserrat-Medium.ttf); /* Путь к файлу со шрифтом */
+    font-family: Montserrat;
+    src: url(static/fonts/Montserrat-Medium.ttf);
+}
+
+@font-face {
+    font-family: ProductSans;
+    src: url(static/fonts/productsans.ttf);
 }
 
 

@@ -1,5 +1,5 @@
 import mainHTML from './main.html';
-import { Sidebar } from "../../components/sidebar/sidebar";
+import { Sidebar } from '../../components/sidebar/sidebar';
 
 export class MainPage {
     private _root: HTMLElement;

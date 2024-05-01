@@ -8,11 +8,9 @@
         "project": "tsconfig.json",
         "sourceType": "module"
     },
-    "plugins": [
-        "@typescript-eslint"
-    ],
+    "plugins": ["@typescript-eslint"],
     "rules": {
-        "@typescript-eslint/consistent-type-definitions": "error",
+        "@typescript-eslint/consistent-type-definitions": ["error", "type"],
         "@typescript-eslint/member-delimiter-style": [
             "error",
             {
@@ -33,38 +31,21 @@
         "@typescript-eslint/no-misused-new": "error",
         "@typescript-eslint/no-non-null-assertion": "error",
         "@typescript-eslint/prefer-function-type": "error",
-        "@typescript-eslint/quotes": [
-            "error",
-            "single"
-        ],
-        "@typescript-eslint/semi": [
-            "error",
-            "always"
-        ],
+        "@typescript-eslint/quotes": ["error", "single"],
+        "@typescript-eslint/semi": ["error", "always"],
         "@typescript-eslint/type-annotation-spacing": "error",
         "@typescript-eslint/unified-signatures": "error",
-        "arrow-body-style": [
-            "error",
-            "always"
-        ],
+        "arrow-body-style": ["error", "always"],
         "constructor-super": "error",
         "curly": "error",
         "dot-notation": "off",
         "eol-last": "error",
-        "eqeqeq": [
-            "error",
-            "smart"
-        ],
-        "indent": ["error", 2],
+        "eqeqeq": ["error", "smart"],
+        "indent": ["error", 4],
         "guard-for-in": "error",
         "id-blacklist": "off",
         "id-match": "off",
-        "max-len": [
-            "error",
-            {
-                "code": 256
-            }
-        ],
+        "max-len": ["error", { "code": 256 }],
         "no-bitwise": "error",
         "no-caller": "error",
         "no-console": [
@@ -100,16 +81,8 @@
         "no-irregular-whitespace": "error",
         "no-multiple-empty-lines": "error",
         "no-new-wrappers": "error",
-        "no-restricted-imports": [
-            "error",
-            "rxjs/Rx"
-        ],
-        "no-shadow": [
-            "error",
-            {
-                "hoist": "all"
-            }
-        ],
+        "no-restricted-imports": ["error", "rxjs/Rx"],
+        "no-shadow": ["error", { "hoist": "all" }],
         "no-throw-literal": "error",
         "no-trailing-spaces": "error",
         "no-undef-init": "error",
@@ -120,5 +93,12 @@
         "prefer-const": "error",
         "radix": "error",
         "spaced-comment": "error"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".ts"]
+            }
+        }
     }
 }
