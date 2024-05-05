@@ -3,14 +3,14 @@ const apiUrls = {
     FILES_ADD: '/api/',
     FILES_REMOVE: '/api/',
 
-    USER_SIGN_IN: '/api/',
+    USER_SIGN_IN: '/signin',
     USER_SIGN_UP: '/api/',
     USER_SIGN_OUT: '/api/',
 
     USER_ADD_GOOGLE: '/api/',
 } as const;
 
-const requestType = {
+const RequestType = {
     GET: 'GET',
     POST: 'POST',
 } as const;
@@ -31,8 +31,8 @@ class Ajax {
 
         return fetch(requestUrl, {
             method: requestType,
-            mode: "cors",
-            credentials: "include",
+            mode: 'cors',
+            credentials: 'include',
             headers: {
                 'X-Csrf-Token': localStorage.getItem('X-Csrf-Token'),
             },
@@ -40,10 +40,10 @@ class Ajax {
         });
     }
 
-    async signIn({ login, password }) {
+    async signIn({ username, password }) {
         try {
-            const response = await this._request(apiUrls.USER_SIGN_IN, requestType.POST, JSON.stringify({
-                login,
+            const response = await this._request(apiUrls.USER_SIGN_IN, RequestType.POST, JSON.stringify({
+                username,
                 password
             }));
 

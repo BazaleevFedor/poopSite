@@ -1,12 +1,15 @@
 .sidebar {
     width: 250px;
     height: 100%;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    gap: 8px;
 
     &__item {
-        flex: 0 0 calc(50% - 8px); /* Задаем элементам равную ширину (половину контейнера минус отступ) */
-        margin-bottom: 8px; /* Задаем отступ между картинками */
-        box-sizing: border-box;
+        max-height: 100%;
+        max-width: 230px;
+        overflow: hidden;
+        margin: auto;
+        border-radius: 8px;
     }
 }

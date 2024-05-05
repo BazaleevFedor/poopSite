@@ -7,4 +7,16 @@ export const actionFiles = {
             options,
         });
     },
+    addFiles(options: any) {
+        Dispatcher.dispatch({
+            actionName: 'addFiles',
+            options,
+        });
+    },
+    removeFiles(options: any) {
+        Dispatcher.dispatch({
+            actionName: 'removeFiles',
+            options,
+        });
+    },
 };

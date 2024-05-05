@@ -2,13 +2,17 @@ import Dispatcher from '../dispatcher/dispatcher';
 import Ajax from '../modules/ajax';
 
 type UserData = {
-    isAuth: boolean,
-    login: string,
-    googleTokens: string[],
+    isAuth: boolean;
+    login: string;
+    googleTokens: string[];
 };
 
-class userStore {
-    private userData: UserData;
+class UserStore {
+    userData: UserData = {
+        isAuth: false,
+        login: '',
+        googleTokens: []
+    };
     private _callbacks: any[];
 
     constructor() {
@@ -29,19 +33,20 @@ class userStore {
     }
 
     async _fromDispatch(action: { actionName: string; options: any }) {
+        alert('_fromDispatch');
         switch (action.actionName) {
-            case 'signIn':
-                await this._signIn(action.options);
-                break;
-            default:
-                return;
+        case 'signIn':
+            await this._signIn(action.options);
+            break;
+        default:
+            return;
         }
     }
 
-    async _signIn(options: { login: string, password: string }) {
+    async _signIn(options: { username: string; password: string }) {
         this.userData.isAuth = await Ajax.signIn(options);
         this._refreshStore();
     }
 }
 
-export default new userStore();
+export const userStore = new UserStore();

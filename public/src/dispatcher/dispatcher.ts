@@ -19,7 +19,7 @@ class Dispatcher {
      * метод, регистрирующий новый коллбек в диспетчере
      * @param {Function} callback функция-коллбек
      */
-    register(callback) {
+    register(callback: any) {
         this._callbacks.push(callback);
     }
 
@@ -27,7 +27,7 @@ class Dispatcher {
      * метод, удаляющий регистрацию коллбека
      * @param {int} id
      */
-    unregister(id) {
+    unregister(id: string | number) {
         delete this._callbacks[id];
     }
 
@@ -35,9 +35,9 @@ class Dispatcher {
      * метод, организующий рассылку
      * @param {Object} payload
      */
-    dispatch(payload) {
+    dispatch(payload: { actionName: string; options: any }) {
         if (this._isDispatching) {
-            throw new Error("Cannot dispatch in the middle of a dispatch");
+            throw new Error('Cannot dispatch in the middle of a dispatch');
         }
         this._isDispatching = true;
         this._pendingPayload = payload;

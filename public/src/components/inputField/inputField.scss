@@ -9,6 +9,11 @@
     outline: none;
     padding-left: 10px;
     padding-right: 10px;
+    font-family: InterMedium, sans-serif;
+    color: #6C6F72;
+    font-size: 15px;
+    border-radius: 8px;
+    text-indent: 5px;
 
     grid-row: 1;
     grid-column: 1;
@@ -26,6 +31,9 @@
     grid-column: 1;
 
     font-weight: 400;
+    font-family: InterRegular, sans-serif;
+    color: #D5534D;
+    font-size: 12px;
 }
 
 .input-field:focus {

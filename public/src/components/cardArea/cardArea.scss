@@ -1,0 +1,8 @@
+.card-area {
+    grid-auto-flow: dense;
+    grid-gap: 40px 8px;
+    box-sizing: border-box;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin-bottom: 42px;
+    display: grid;
+}

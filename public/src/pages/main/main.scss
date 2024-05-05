@@ -1,30 +1,32 @@
 .main {
     height: 100%;
-    display: grid;
-    grid-template-columns: max-content 1fr;
 
     .content {
-        padding: 16px;
+        padding: 16px 16px 16px 266px;
 
         .logo {
             font-family: Montserrat, sans-serif;
             font-size: 26px;
 
             &__blue {
-                color: blue;
+                color: #4285F4;
             }
 
             &__red {
-                color: red;
+                color: #EA4335;
             }
 
             &__yellow {
-                color: yellow;
+                color: #FBBC05;
             }
 
             &__green {
-                color: green;
+                color: #34A853;
             }
+        }
+
+        .card-area-wrapper {
+            width: 100%;
         }
     }
 
@@ -32,6 +34,7 @@
         width: 250px;
         height: 100%;
         background: #2c3e50;
+        position: fixed;
     }
 
     .profile-wrapper {
