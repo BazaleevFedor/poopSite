@@ -7,7 +7,6 @@ export class InputField {
         this._root = root;
         this._id = crypto.randomUUID();
         this._placeholder = placeholder;
-        this._render();
     }
 
     setError(isError: string) {
@@ -20,7 +19,7 @@ export class InputField {
         errorField.innerText = isError;
     }
 
-    private _render() {
+    render() {
         this._root.innerHTML = `
             <div class="input-block">
                 <input class="input-block__field input-block__field-correct" id="${ this._id }" placeholder="${ this._placeholder }">

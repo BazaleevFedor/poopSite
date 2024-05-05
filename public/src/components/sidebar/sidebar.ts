@@ -31,10 +31,9 @@ export class Sidebar {
     constructor(root: HTMLElement) {
         root.innerHTML = sidebarHTML;
         this._view = document.getElementById('sidebar');
-        this.update();
     }
 
-    update() {
+    render() {
         this.clear();
 
         for (let i = 0; i < 5; i++) {

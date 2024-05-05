@@ -1,5 +1,5 @@
-import {Card} from "../card/card";
-import cardAreaHTML from "./cardArea.html";
+import {Card} from '../card/card';
+import cardAreaHTML from './cardArea.html';
 
 const CARD_ON_PAGE = 100;
 
@@ -15,7 +15,7 @@ export class CardArea {
         this._view.innerHTML = '';
     }
 
-    update(cardList: any) {
+    render(cardList: any) {
         this.clear();
 
         for (let i = 0; i < Math.min(CARD_ON_PAGE, cardList.length); i++) {
