@@ -2,16 +2,20 @@ import Dispatcher from '../dispatcher/dispatcher';
 import Ajax from '../modules/ajax';
 
 type FilesData = {
-    id?: number;
-    name?: string;
+    id: number;
+    name: string;
 };
 
 class filesStore {
     files: FilesData[];
+    newFiles: FilesData[];
+    chooseFilesId: string[];
     private _callbacks: any[];
 
     constructor() {
         this._callbacks = [];
+        this.files = [];
+        this.newFiles = [];
         Dispatcher.register(this._fromDispatch.bind(this));
     }
 
@@ -27,7 +31,7 @@ class filesStore {
         });
     }
 
-    async _fromDispatch(action: { actionName: string; func: any; alg: any; options: any; }) {
+    async _fromDispatch(action: { actionName: string; func: any; alg: any; options: any }) {
         switch (action.actionName) {
         case 'getFiles':
             await this._getFiles(action.options);
@@ -38,10 +42,17 @@ class filesStore {
     }
 
     async _getFiles(options: any) {
-        const request = await Ajax.getFiles();
+        const request = await Ajax.getFiles(options);
 
         console.log(request);
-        this.files = request;
+        if (request === null) {
+            this.files = [];
+            this.newFiles = [];
+        } else {
+            this.newFiles = request;
+            this.files = this.files.concat(request);
+        }
+
         this._refreshStore();
     }
 }

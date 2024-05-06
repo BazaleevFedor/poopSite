@@ -12,6 +12,11 @@
     flex-direction: column;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
+    border: 2px solid #ecf0f1;
+
+    &_choose {
+        border: 2px solid #3498db;
+    }
 
     .file-options {
         position: absolute;

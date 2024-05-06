@@ -28,7 +28,7 @@ class Ajax {
         this._backendUrl = 'http://' + this._backendHostname + ':' + this._backendPort;
     }
 
-    _request(apiUrlType: string, requestType: string, body?: string, code?: string) {
+    _request(apiUrlType: string, requestType: string, body?: string) {
         const requestUrl = this._backendUrl + apiUrlType;
 
         const headers = {
@@ -37,10 +37,6 @@ class Ajax {
 
         if (localStorage.getItem('jwtToken')) {
             headers['Authorization'] = `Bearer ${ localStorage.getItem('jwtToken') }`;
-        }
-
-        if (code) {
-            headers['code'] = code;
         }
 
         return fetch(requestUrl, {
@@ -94,8 +90,16 @@ class Ajax {
         }
     }
 
-    async getFiles() {
-        return [{name: 'awd', id: 1}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+    async getFiles(options: { searchQuery: string; nextPageToken: string; parentFolder: string; pageSize: string; sortOrder: string; owner: string }) {
+        // return [{name: 'awd1', id: 1}, {name: 'awd2', id: 2}, {name: 'awd3', id: 3}, {name: 'awd4', id: 4}, {name: 'awd5', id: 5}, {name: 'awd6', id: 6}, {name: 'awd7', id: 7}, {name: 'awd8', id: 8}];
+        try {
+            const response = await this._request(apiUrls.FILES_GET, RequestType.POST, JSON.stringify(options));
+
+            const data = await response.json();
+            return data || null;
+        } catch (e) {
+            return null;
+        }
     }
 
     async getGoogleLink() {
@@ -110,7 +114,7 @@ class Ajax {
 
     async sendGoogleToken({ code }) {
         try {
-            const response = await this._request(apiUrls.GOOGLE_SEND_LINK, RequestType.GET, undefined, code);
+            const response = await this._request(apiUrls.GOOGLE_SEND_LINK + `?code=${code}`, RequestType.GET);
             return response.status === 200;
         } catch (e) {
             return null;

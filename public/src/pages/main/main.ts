@@ -44,7 +44,11 @@ export class MainPage {
         this._search.render();
 
         if (userStore.userData.isAuth) {
-            actionFiles.getFiles();
+            if (!userStore?.userData?.username) {
+                actionUser.getUsername();
+                return;
+            }
+            actionFiles.getFiles(undefined, undefined, undefined, undefined, undefined, undefined);
             this._profile.render();
             this._toggleBlur(false);
         } else {

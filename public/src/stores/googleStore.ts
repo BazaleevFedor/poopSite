@@ -2,7 +2,6 @@ import Dispatcher from '../dispatcher/dispatcher';
 import Ajax from '../modules/ajax';
 
 class GoogleStore {
-    private googleLink: string;
     private _callbacks: any[];
 
     constructor() {
@@ -36,9 +35,9 @@ class GoogleStore {
     }
 
     async _getGoogleLink() {
-        this.googleLink = await Ajax.getGoogleLink();
-        window.location.href = this.googleLink;
-        // this._refreshStore();
+        const googleLink = await Ajax.getGoogleLink();
+        if (googleLink) window.location.href = googleLink;
+        else alert('ошибка получения ссылки на авторизацию гугла');
     }
 
     async _sendGoogleToken(options: { code: string }) {

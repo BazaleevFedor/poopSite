@@ -1,6 +1,7 @@
 import { Card } from '../card/card';
 import cardAreaHTML from './cardArea.html';
 import filesStore from '../../stores/filesStore';
+import { throttle } from '../../modules/utils';
 
 const CARD_ON_PAGE = 100;
 
@@ -12,6 +13,7 @@ export class CardArea {
         this._view = document.getElementById('cardArea');
 
         this._addStore();
+        this._addEventListeners();
     }
 
     clear() {
@@ -19,28 +21,46 @@ export class CardArea {
     }
 
     render() {
-        this.clear();
+        if (!filesStore?.newFiles?.length) return;
 
-        for (let i = 0; i < Math.min(CARD_ON_PAGE, filesStore.files.length); i++) {
-            new Card(this._view, filesStore.files[i]);
-        }
-        this._addEventListeners();
+        const startIndex = filesStore.files.length - 1 || 0;
+        filesStore.newFiles.forEach((file, index) => {
+            new Card(this._view, file, startIndex + index);
+        });
     }
 
     private _addEventListeners() {
-        /* const fileOptions = document.querySelectorAll('.file-options');
-        fileOptions.forEach((option) => {
-            option.addEventListener('click', (e) => {
-                option.querySelector('.file-options-menu').classList.toggle('hide');
-                e.stopPropagation();
-            });
+        this._view.addEventListener('click', (e) => {
+            const clickedCard = e.target as HTMLElement;
+            if (clickedCard.closest('.card') && !clickedCard.closest('.file-options')) {
+                const cardId = clickedCard.closest('.card').getAttribute('data-tag');
+                const ctrlPressed = e.ctrlKey;
+                const shiftPressed = e.shiftKey;
+
+                if (!ctrlPressed && !shiftPressed) {
+
+                    this._chooseFile(cardId, true);
+                }
+                this._chooseFile(cardId, true);
+            }
         });
 
-        document.addEventListener('click', (e) => {
-            fileOptions.forEach((option) => {
-                option.querySelector('.file-options-menu').classList.add('hide');
-            });
-        });*/
+        window.addEventListener('scroll', throttle(() => {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.scrollY || window.pageYOffset;
+
+            if (scrollTop + windowHeight >= documentHeight) {
+                console.log('Домотали до конца экрана!');
+            }
+        }, 200));
+    }
+
+    private _chooseFile(id: string, isChoose: boolean) {
+        this._view.querySelector(`[data-tag="${id}"]`).classList.toggle('card_choose', isChoose);
+        filesStore.chooseFilesId = filesStore.chooseFilesId.filter(item => {
+            return item !== id;
+        });
     }
 
     private _addStore() {
