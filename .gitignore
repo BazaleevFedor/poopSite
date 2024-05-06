@@ -3,3 +3,4 @@ node_modules/
 *.precompiled.js
 *.css
 *.css.map
+/dist/

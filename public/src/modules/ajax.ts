@@ -1,14 +1,15 @@
 const apiUrls = {
-    FILES_GET: '/api/',
+    FILES_GET: '/files',
     FILES_ADD: '/api/',
     FILES_REMOVE: '/api/',
 
     USER_SIGN_IN: '/sign-in',
     USER_GET_NAME: '/get-username',
     USER_SIGN_UP: '/sign-up',
-    USER_SIGN_OUT: '/api/',
+    USER_SIGN_OUT: '/api/', // ToDo
 
-    USER_ADD_GOOGLE: '/api/',
+    GOOGLE_GET_LINK: '/add-account',
+    GOOGLE_SEND_LINK: '/Callback',
 } as const;
 
 const RequestType = {
@@ -27,16 +28,25 @@ class Ajax {
         this._backendUrl = 'http://' + this._backendHostname + ':' + this._backendPort;
     }
 
-    _request(apiUrlType: string, requestType: string, body?: string) {
+    _request(apiUrlType: string, requestType: string, body?: string, code?: string) {
         const requestUrl = this._backendUrl + apiUrlType;
+
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+
+        if (localStorage.getItem('jwtToken')) {
+            headers['Authorization'] = `Bearer ${ localStorage.getItem('jwtToken') }`;
+        }
+
+        if (code) {
+            headers['code'] = code;
+        }
 
         return fetch(requestUrl, {
             method: requestType,
             mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`,
-            },
+            headers,
             body,
         });
     }
@@ -86,6 +96,25 @@ class Ajax {
 
     async getFiles() {
         return [{name: 'awd', id: 1}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+    }
+
+    async getGoogleLink() {
+        try {
+            const response = await this._request(apiUrls.GOOGLE_GET_LINK, RequestType.GET);
+            const data = await response.json();
+            return data?.url || null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async sendGoogleToken({ code }) {
+        try {
+            const response = await this._request(apiUrls.GOOGLE_SEND_LINK, RequestType.GET, undefined, code);
+            return response.status === 200;
+        } catch (e) {
+            return null;
+        }
     }
 }
 

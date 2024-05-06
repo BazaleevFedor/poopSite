@@ -4,14 +4,12 @@ import Ajax from '../modules/ajax';
 type UserData = {
     isAuth: boolean;
     username: string | undefined;
-    googleTokens: string[];
 };
 
 class UserStore {
     userData: UserData = {
         isAuth: false,
         username: undefined,
-        googleTokens: []
     };
     private _callbacks: any[];
 
