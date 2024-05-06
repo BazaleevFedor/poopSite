@@ -7,6 +7,12 @@ export const actionUser = {
             options,
         });
     },
+    getUsername() {
+        Dispatcher.dispatch({
+            actionName: 'getUsername',
+            options: null,
+        });
+    },
     signUp(options: { username: string; password: string }) {
         Dispatcher.dispatch({
             actionName: 'signUp',

@@ -1,29 +1,34 @@
 export class InputField {
     private _root: HTMLElement;
-    private _id: string;
     private _placeholder: string;
+    private _type: string;
 
-    constructor(root: HTMLElement, placeholder: string) {
+    constructor(root: HTMLElement, placeholder: string, type: string) {
         this._root = root;
-        this._id = crypto.randomUUID();
         this._placeholder = placeholder;
+        this._type = type;
     }
 
     setError(isError: string) {
-        const inputField = document.getElementById(this._id);
+        const inputField = this._root.querySelector('[data-tag="input"]');
         inputField.classList.toggle('input-block__field-correct', isError === '');
         inputField.classList.toggle('input-block__field-incorrect', isError !== '');
 
-        const errorField = document.getElementById(`error-${this._id}`);
+        const errorField = this._root.querySelector('[data-tag="error"]');
         errorField.classList.toggle('hide', isError === '');
-        errorField.innerText = isError;
+        errorField.textContent = isError;
+    }
+
+    getValue() {
+        const inputField: HTMLInputElement = this._root.querySelector('[data-tag="input"]');
+        return inputField.value;
     }
 
     render() {
         this._root.innerHTML = `
             <div class="input-block">
-                <input class="input-block__field input-block__field-correct" id="${ this._id }" placeholder="${ this._placeholder }">
-                <div class="input-block__error hide" id="error-${ this._id }"></div>
+                <input class="input-block__field input-block__field-correct" data-tag="input" placeholder="${ this._placeholder }" type="${ this._type }">
+                <div class="input-block__error hide" data-tag="error"></div>
             </div>
         `;
     }

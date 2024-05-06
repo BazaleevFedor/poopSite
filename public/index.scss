@@ -171,7 +171,7 @@
     text-indent: var(--text-indent-input, 5px);
 }
 .hide {
-    display: none;
+    display: none !important;
 }
 
 body, html, #root {

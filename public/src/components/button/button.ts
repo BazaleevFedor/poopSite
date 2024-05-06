@@ -1,26 +1,26 @@
 export class Button {
-    root: HTMLElement;
+    _root: HTMLElement;
     callback: any;
     text: string;
-    id: string;
 
-    constructor(root: HTMLElement, callback: any, text: string, id: string) {
-        this.root = root;
+    constructor(root: HTMLElement, callback: any, text: string) {
+        this._root = root;
         this.callback = callback;
         this.text = text;
-        this.id = id;
-
-        this.root.innerHTML = this.htmlReturn();
     }
 
-    addEventListeners(): void {
+    addEventListeners() {
+        const button = this._root.querySelector('[data-tag="button"]');
+        button.addEventListener('click', this.callback);
     }
 
-    htmlReturn() {
-        return `
-            <button class="button" id="${ this.id }">
+    render() {
+        this._root.innerHTML = `
+            <button class="button" data-tag="button">
                 <span class="button__text">${ this.text }</span>
             </button>
-        `
+        `;
+
+        this.addEventListeners();
     }
 }

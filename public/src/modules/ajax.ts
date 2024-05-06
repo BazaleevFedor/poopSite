@@ -3,8 +3,9 @@ const apiUrls = {
     FILES_ADD: '/api/',
     FILES_REMOVE: '/api/',
 
-    USER_SIGN_IN: '/signin',
-    USER_SIGN_UP: '/api/',
+    USER_SIGN_IN: '/sign-in',
+    USER_GET_NAME: '/get-username',
+    USER_SIGN_UP: '/sign-up',
     USER_SIGN_OUT: '/api/',
 
     USER_ADD_GOOGLE: '/api/',
@@ -32,9 +33,9 @@ class Ajax {
         return fetch(requestUrl, {
             method: requestType,
             mode: 'cors',
-            credentials: 'include',
             headers: {
-                'X-Csrf-Token': localStorage.getItem('X-Csrf-Token'),
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`,
             },
             body,
         });
@@ -47,8 +48,35 @@ class Ajax {
                 password
             }));
 
-            const csrfToken = response.headers.get('X-Csrf-Token');
-            if (csrfToken) localStorage.setItem('X-Csrf-Token', csrfToken);
+            const data = await response.json();
+            if (data.jwtToken) localStorage.setItem('jwtToken', data.jwtToken);
+
+            return response.status === 200;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    async getUsername() {
+        try {
+            const response = await this._request(apiUrls.USER_GET_NAME, RequestType.GET);
+            const data = await response.json();
+
+            return data?.username;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async signUp({ username, password }) {
+        try {
+            const response = await this._request(apiUrls.USER_SIGN_UP, RequestType.POST, JSON.stringify({
+                username,
+                password
+            }));
+
+            const data = await response.json();
+            if (data.jwtToken) localStorage.setItem('jwtToken', data.jwtToken);
 
             return response.status === 200;
         } catch (e) {
@@ -57,7 +85,7 @@ class Ajax {
     }
 
     async getFiles() {
-        return false;
+        return [{name: 'awd', id: 1}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
     }
 }
 

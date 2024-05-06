@@ -1,5 +1,6 @@
-import {Card} from '../card/card';
+import { Card } from '../card/card';
 import cardAreaHTML from './cardArea.html';
+import filesStore from '../../stores/filesStore';
 
 const CARD_ON_PAGE = 100;
 
@@ -9,17 +10,19 @@ export class CardArea {
     constructor(root: HTMLElement) {
         root.innerHTML = cardAreaHTML;
         this._view = document.getElementById('cardArea');
+
+        this._addStore();
     }
 
     clear() {
         this._view.innerHTML = '';
     }
 
-    render(cardList: any) {
+    render() {
         this.clear();
 
-        for (let i = 0; i < Math.min(CARD_ON_PAGE, cardList.length); i++) {
-            new Card(this._view, cardList[i]);
+        for (let i = 0; i < Math.min(CARD_ON_PAGE, filesStore.files.length); i++) {
+            new Card(this._view, filesStore.files[i]);
         }
         this._addEventListeners();
     }
@@ -38,6 +41,10 @@ export class CardArea {
                 option.querySelector('.file-options-menu').classList.add('hide');
             });
         });*/
+    }
+
+    private _addStore() {
+        filesStore.registerCallback(this.render.bind(this));
     }
 }
 

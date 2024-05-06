@@ -3,14 +3,14 @@ import Ajax from '../modules/ajax';
 
 type UserData = {
     isAuth: boolean;
-    login: string;
+    username: string | undefined;
     googleTokens: string[];
 };
 
 class UserStore {
     userData: UserData = {
         isAuth: false,
-        login: '',
+        username: undefined,
         googleTokens: []
     };
     private _callbacks: any[];
@@ -33,10 +33,18 @@ class UserStore {
     }
 
     async _fromDispatch(action: { actionName: string; options: any }) {
-        alert('_fromDispatch');
         switch (action.actionName) {
         case 'signIn':
             await this._signIn(action.options);
+            break;
+        case 'getUsername':
+            await this._getUsername();
+            break;
+        case 'signUp':
+            await this._signUp(action.options);
+            break;
+        case 'signOut':
+            await this._signOut();
             break;
         default:
             return;
@@ -45,6 +53,23 @@ class UserStore {
 
     async _signIn(options: { username: string; password: string }) {
         this.userData.isAuth = await Ajax.signIn(options);
+        this._refreshStore();
+    }
+
+    async _getUsername() {
+        this.userData.username = await Ajax.getUsername();
+        this.userData.isAuth = !!this.userData.username;
+
+        this._refreshStore();
+    }
+
+    async _signUp(options: { username: string; password: string }) {
+        this.userData.isAuth = await Ajax.signUp(options);
+        this._refreshStore();
+    }
+
+    async _signOut() {
+        this.userData.isAuth = false;
         this._refreshStore();
     }
 }

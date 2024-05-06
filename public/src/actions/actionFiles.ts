@@ -1,10 +1,10 @@
 import Dispatcher from '../dispatcher/dispatcher';
 
 export const actionFiles = {
-    getFiles(options: any) {
+    getFiles() {
         Dispatcher.dispatch({
             actionName: 'getFiles',
-            options,
+            options: null,
         });
     },
     addFiles(options: any) {
