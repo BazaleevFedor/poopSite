@@ -91,15 +91,15 @@ class Ajax {
     }
 
     async getFiles(options: { searchQuery: string; nextPageToken: string; parentFolder: string; pageSize: string; sortOrder: string; owner: string }) {
-        // return [{name: 'awd1', id: 1}, {name: 'awd2', id: 2}, {name: 'awd3', id: 3}, {name: 'awd4', id: 4}, {name: 'awd5', id: 5}, {name: 'awd6', id: 6}, {name: 'awd7', id: 7}, {name: 'awd8', id: 8}];
-        try {
+        return [{name: 'awd1', id: 1}, {name: 'awd2', id: 2}, {name: 'awd3', id: 3}, {name: 'awd4', id: 4}, {name: 'awd5', id: 5}, {name: 'awd6', id: 6}, {name: 'awd7', id: 7}, {name: 'awd8', id: 8}];
+        /* try {
             const response = await this._request(apiUrls.FILES_GET, RequestType.POST, JSON.stringify(options));
 
             const data = await response.json();
             return data || null;
         } catch (e) {
             return null;
-        }
+        } */
     }
 
     async getGoogleLink() {

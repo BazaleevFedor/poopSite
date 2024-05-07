@@ -16,6 +16,7 @@ class filesStore {
         this._callbacks = [];
         this.files = [];
         this.newFiles = [];
+        this.chooseFilesId = [];
         Dispatcher.register(this._fromDispatch.bind(this));
     }
 
@@ -50,7 +51,6 @@ class filesStore {
             this.newFiles = [];
         } else {
             this.newFiles = request;
-            this.files = this.files.concat(request);
         }
 
         this._refreshStore();
