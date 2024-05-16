@@ -17,5 +17,11 @@ export class Card {
         this._view.setAttribute('data-tag', String(this._id));
         this._view.querySelector('[data-tag="name"]').innerHTML = this._cardData.name;
         this._view.querySelector('[data-tag="date"]').innerHTML = this._cardData.date;
+        if (this._cardData.mimeType.includes('image')) {
+            this._view.querySelector('[data-tag="img"]').setAttribute('src', this._cardData.thumbnailLink);
+        } else {
+            this._view.querySelector('[data-tag="img"]').setAttribute('src', this._cardData.iconLink);
+            this._view.querySelector('[data-tag="img"]').classList.remove('card__img');
+        }
     }
 }

@@ -1,5 +1,8 @@
 import Dispatcher from '../dispatcher/dispatcher';
 import Ajax from '../modules/ajax';
+import filesStore from "./filesStore";
+import {actionGoogle} from "../actions/actionGoogle";
+import {actionUser} from "../actions/actionUser";
 
 type UserData = {
     isAuth: boolean;
@@ -51,23 +54,25 @@ class UserStore {
 
     async _signIn(options: { username: string; password: string }) {
         this.userData.isAuth = await Ajax.signIn(options);
-        this._refreshStore();
+        actionUser.getUsername();
     }
 
     async _getUsername() {
         this.userData.username = await Ajax.getUsername();
         this.userData.isAuth = !!this.userData.username;
-
         this._refreshStore();
     }
 
     async _signUp(options: { username: string; password: string }) {
         this.userData.isAuth = await Ajax.signUp(options);
-        this._refreshStore();
+        actionUser.getUsername();
     }
 
     async _signOut() {
         this.userData.isAuth = false;
+        this.userData.username = undefined;
+        localStorage.removeItem('jwtToken');
+        filesStore.signOut();
         this._refreshStore();
     }
 }

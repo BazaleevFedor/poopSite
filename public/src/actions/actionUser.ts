@@ -19,10 +19,10 @@ export const actionUser = {
             options,
         });
     },
-    signOut(options: { username: string; password: string }) {
+    signOut() {
         Dispatcher.dispatch({
             actionName: 'signOut',
-            options,
+            options: null,
         });
     },
 };

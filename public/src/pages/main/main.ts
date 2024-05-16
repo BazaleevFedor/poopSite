@@ -8,6 +8,9 @@ import { actionUser } from '../../actions/actionUser';
 import { actionFiles } from '../../actions/actionFiles';
 import { actionGoogle } from '../../actions/actionGoogle';
 import {ProfileArea} from '../../components/profile/profile';
+import {googleStore} from '../../stores/googleStore';
+import {throttle} from '../../modules/utils';
+import filesStore from '../../stores/filesStore';
 
 export class MainPage {
     private _view: HTMLElement;
@@ -21,7 +24,6 @@ export class MainPage {
         const url = new URLSearchParams(window.location.search);
         if (url.has('code')) {
             actionGoogle.sendGoogleToken(url.get('code'));
-            console.log(url.get('code'));
             const newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
             window.history.pushState({ path: newUrl }, '', newUrl);
         }
@@ -36,7 +38,9 @@ export class MainPage {
         this._authModal = new AuthModal(document.getElementById('authModalWrapper'));
         this._profile = new ProfileArea(document.getElementById('profileWrapper'));
 
-        actionUser.getUsername();
+        setTimeout(() => {
+            actionUser.getUsername();
+        }, url.has('code') ? 400 : 0);
     }
 
     render() {
@@ -44,12 +48,7 @@ export class MainPage {
         this._search.render();
 
         if (userStore.userData.isAuth) {
-            if (!userStore?.userData?.username) {
-                actionUser.getUsername();
-                return;
-            }
-            actionFiles.getFiles(undefined, undefined, undefined, undefined, undefined, undefined);
-            this._profile.render();
+            actionFiles.getFiles(true);
             this._toggleBlur(false);
         } else {
             this._signOut();
@@ -68,5 +67,6 @@ export class MainPage {
 
     private _addStore() {
         userStore.registerCallback(this.render.bind(this));
+        googleStore.registerCallback(this.render.bind(this));
     }
 }

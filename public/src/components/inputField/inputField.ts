@@ -31,5 +31,11 @@ export class InputField {
                 <div class="input-block__error hide" data-tag="error"></div>
             </div>
         `;
+
+        // this._root.oninput = this.onInput.bind(this);
     }
+
+    /* private onInput() {
+        alert('her');
+    } */
 }

@@ -11,6 +11,8 @@ class filesStore {
     newFiles: FilesData[];
     chooseFilesId: string[];
     private _callbacks: any[];
+    private nextPageToken: string;
+    private nextOwnerIndex: string;
 
     constructor() {
         this._callbacks = [];
@@ -18,6 +20,12 @@ class filesStore {
         this.newFiles = [];
         this.chooseFilesId = [];
         Dispatcher.register(this._fromDispatch.bind(this));
+    }
+
+    signOut() {
+        this.files = [];
+        this.newFiles = [];
+        this.chooseFilesId = [];
     }
 
     registerCallback(callback: any) {
@@ -43,15 +51,15 @@ class filesStore {
     }
 
     async _getFiles(options: any) {
+        options.pageSize = '40';
+        options.nextPageToken = this.nextPageToken;
+        options.nextOwnerIndex = this.nextOwnerIndex;
         const request = await Ajax.getFiles(options);
 
-        console.log(request);
-        if (request === null) {
-            this.files = [];
-            this.newFiles = [];
-        } else {
-            this.newFiles = request;
-        }
+        if (options.isNewPage) this.files = [];
+        this.newFiles = request?.fileDtos || [];
+        this.nextPageToken = request?.nextPageToken;
+        this.nextOwnerIndex = request?.nextOwnerIndex;
 
         this._refreshStore();
     }

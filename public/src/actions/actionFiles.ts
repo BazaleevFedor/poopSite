@@ -1,23 +1,15 @@
 import Dispatcher from '../dispatcher/dispatcher';
 
 export const actionFiles = {
-    getFiles(searchQuery: string = undefined, nextPageToken: string = undefined, parentFolder: string = undefined, pageSize: string = undefined, sortOrder: string = undefined, owner: string = undefined) {
+    getFiles(isNewPage: boolean, searchQuery: string = undefined, sortOrder: string = undefined, parentFolder: string = undefined) {
         Dispatcher.dispatch({
             actionName: 'getFiles',
             options: {
+                isNewPage,
                 searchQuery,
-                nextPageToken,
-                parentFolder,
-                pageSize,
                 sortOrder,
-                owner,
+                parentFolder,
             },
-        });
-    },
-    addFiles(options: any) {
-        Dispatcher.dispatch({
-            actionName: 'addFiles',
-            options,
         });
     },
     removeFiles(options: any) {

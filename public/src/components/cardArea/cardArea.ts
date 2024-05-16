@@ -1,9 +1,8 @@
 import { Card } from '../card/card';
 import cardAreaHTML from './cardArea.html';
 import filesStore from '../../stores/filesStore';
-import { throttle } from '../../modules/utils';
-
-const CARD_ON_PAGE = 100;
+import {debounce, throttle} from '../../modules/utils';
+import { actionFiles } from '../../actions/actionFiles';
 
 export class CardArea {
     private _view: HTMLElement;
@@ -21,9 +20,18 @@ export class CardArea {
     }
 
     render() {
-        if (!filesStore?.newFiles?.length) return;
+        if (!filesStore.files.length) this.clear();
+        if (!filesStore?.newFiles?.length) {
+            setTimeout(() => {
+                alert('добавь гугл акк, сцука');
+            });
+            return;
+        }
 
-        const startIndex = filesStore.files.length ? filesStore.files.length : 0;
+        console.log(filesStore.files);
+        console.log(filesStore.newFiles);
+
+        const startIndex = filesStore.files.length || 0;
         filesStore.newFiles.forEach((file, index) => {
             new Card(this._view, file, startIndex + index);
         });
@@ -68,23 +76,30 @@ export class CardArea {
             }
         });
 
-        window.addEventListener('scroll', throttle(() => {
+        window.addEventListener('scroll', debounce(() => {
+            if (!filesStore.newFiles.length) return;
             const windowHeight = window.innerHeight;
             const documentHeight = document.documentElement.scrollHeight;
             const scrollTop = window.scrollY || window.pageYOffset;
 
             if (scrollTop + windowHeight >= documentHeight) {
-                console.log('Домотали до конца экрана!');
+                actionFiles.getFiles(false);
             }
         }, 200));
     }
 
-    private _chooseFile(id: string, isChoose?: boolean) {
-        this._view.querySelector(`[data-tag="${id}"]`).classList.toggle('card_choose');
+    private _chooseFile(id: string) {
+        const elem = this._view.querySelector(`[data-tag="${id}"]`);
+        elem.classList.toggle('card_choose');
 
-        if (this._view.querySelector(`[data-tag="${id}"]`).classList.contains('card_choose')) {
-            filesStore.chooseFilesId.push(id);
+        if (filesStore.chooseFilesId.includes(id)) {
+            filesStore.chooseFilesId = filesStore.chooseFilesId.filter((item) => {
+                return item !== id;
+            });
+            return;
         }
+
+        filesStore.chooseFilesId.push(id);
     }
 
     private _clearChoose() {

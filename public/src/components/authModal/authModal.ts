@@ -18,6 +18,13 @@ export class AuthModal {
         this._username = new InputField(this._view.querySelector('[data-tag="username"]'), 'username', '');
         this._password = new InputField(this._view.querySelector('[data-tag="password"]'), 'password', 'password');
         this._button = new Button(this._view.querySelector('[data-tag="button"]'), this._onButtonClick.bind(this), 'жмак');
+
+        this._toggle();
+        this._view.querySelector('[data-tag="regBtn"]').addEventListener('click', () => {
+            console.log(this._isAuth);
+            this._isAuth = !this._isAuth;
+            this._toggle();
+        });
     }
 
     clear() {
@@ -28,12 +35,6 @@ export class AuthModal {
         this._username.render();
         this._password.render();
         this._button.render();
-
-        this._toggle();
-        this._view.querySelector('[data-tag="regBtn"]').addEventListener('click', () => {
-            this._isAuth = !this._isAuth;
-            this._toggle();
-        });
     }
 
     private _toggle() {
