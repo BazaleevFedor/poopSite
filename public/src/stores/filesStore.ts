@@ -2,6 +2,7 @@ import Dispatcher from '../dispatcher/dispatcher';
 import Ajax from '../modules/ajax';
 
 type FilesData = {
+    mimeType: any;
     id: number;
     name: string;
 };
@@ -92,7 +93,13 @@ class filesStore {
     }
 
     async _getViewLink(options: any) {
-        const googleLink = await Ajax.getViewLink(options);
+        console.log(options);
+        console.log(this.files[options.id]);
+        if (this.files[options.id].mimeType.includes('application/vnd.google-apps.folder')) {
+            window.location.href = `/folders/${this.files[options.id].id}`;
+            return;
+        }
+        const googleLink = await Ajax.getViewLink({ id: this.files[options.id].id.toString() });
         if (googleLink) {
             window.open(googleLink.url, '_blank');
         } else {
@@ -103,9 +110,12 @@ class filesStore {
     async _uploadsFiles(options: any) {
         const response = await Ajax.uploadsFiles(options);
 
+        const dropArea = document.getElementById('dropFiles');
         if (response) {
+            dropArea.classList.add('drop-files_active');
             console.log('File uploaded successfully');
         } else {
+            dropArea.classList.add('drop-files_error');
             console.log('File upload failed');
         }
     }

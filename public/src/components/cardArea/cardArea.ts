@@ -42,13 +42,13 @@ export class CardArea {
             const clickedCard = e.target as HTMLElement;
             if (clickedCard.closest('.card') && !clickedCard.closest('.card__options')) {
                 const cardId = clickedCard.closest('.card').getAttribute('data-tag');
-                actionFiles.getViewLink(filesStore.files[cardId].id);
+                actionFiles.getViewLink(cardId);
             }
         });
 
         this._view.addEventListener('click', (e) => {
             const clickedCard = e.target as HTMLElement;
-            if (clickedCard.closest('.card') && !clickedCard.closest('.card__options')) {
+            if (clickedCard.closest('.card') && !clickedCard.closest('.card__share')) {
                 let cardId = clickedCard.closest('.card').getAttribute('data-tag');
                 const ctrlPressed = e.ctrlKey;
                 const shiftPressed = e.shiftKey;
@@ -85,7 +85,7 @@ export class CardArea {
                 document.getElementById('ts-trash').classList.toggle('select-button_disabled', !filesStore.chooseFilesId.length);
             }
 
-            if (clickedCard.closest('.card__options')) {
+            if (clickedCard.closest('.card__share')) {
                 const menu = clickedCard.querySelector('[data-tag="menu"]');
                 menu.classList.toggle('hide');
                 if (!menu.classList.contains('hide')) this.curMenuId = clickedCard.parentElement.getAttribute('data-tag');
@@ -93,12 +93,6 @@ export class CardArea {
                 this._clearChoose();
             }
         });
-
-        /* document.addEventListener('click', () => {
-            if (this.curMenuId) {
-                this._closeMenu();
-            }
-        }); */
 
         window.addEventListener('scroll', debounce(() => {
             if (!filesStore.newFiles.length) return;

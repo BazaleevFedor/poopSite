@@ -10,6 +10,7 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist'),
+        publicPath: '/', // Добавлено для правильной работы маршрутизации
     },
     module: {
         rules: [
@@ -55,7 +56,8 @@ module.exports = {
     devServer: {
         static: {
             directory: path.join(__dirname, 'public'),
-            watch: true, // Позволяет автоматически перезагружать страницу при изменении файлов
+            watch: true,
         },
+        historyApiFallback: true, // Добавлено для правильной работы маршрутизации
     }
 };

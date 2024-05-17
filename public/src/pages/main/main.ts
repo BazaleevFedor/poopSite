@@ -44,46 +44,59 @@ export class MainPage {
         }, url.has('code') ? 400 : 0);
 
         document.addEventListener('DOMContentLoaded', () => {
-            const dropArea = document.getElementById('root');
+            const drop = document.getElementById('root');
+            const dropFilesWrapper = document.getElementById('dropFilesWrapper');
+            const dropArea = document.getElementById('dropFiles');
 
-            // Предотвращаем действия по умолчанию для событий drag и drop
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, preventDefaults, false);
-            });
-
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
-            // Добавляем визуальную подсказку при перетаскивании файлов
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropArea.addEventListener(eventName, () => {
-                    return dropArea.classList.add('highlight');
+                drop.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                 }, false);
             });
 
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, () => {return dropArea.classList.remove('highlight');}, false);
+            // перенос и вынос файла на сайт
+            let dragCounter = 0;
+            drop.addEventListener('dragenter', (event) => {
+                dragCounter++;
+                dropFilesWrapper.classList.remove('hide');
             });
 
-            // Обрабатываем событие drop
-            dropArea.addEventListener('drop', handleDrop, false);
+            drop.addEventListener('dragleave', (event) => {
+                dragCounter--;
+                if (dragCounter === 0) {
+                    dropFilesWrapper.classList.add('hide');
+                }
+            });
 
-            function handleDrop(e) {
+            drop.addEventListener('drop', (event) => {
+                dragCounter = 0;
+                const files: any = event.dataTransfer.files;
+                ([...files]).forEach(actionFiles.uploadsFiles);
+            });
+
+            document.addEventListener('click', (e) => {
+                const clickedElem = e.target as HTMLElement;
+                if (!clickedElem.closest('.drop-files')) {
+                    dropFilesWrapper.classList.add('hide');
+                    actionFiles.getFiles(true);
+                }
+            });
+
+
+            /* ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, () => {
+                    document.getElementById('dropFilesWrapper').classList.toggle('hide', eventName === 'dragleave');
+                    return dropArea.classList.remove('highlight');
+                }, false);
+            }); */
+
+            /* dropArea.addEventListener('drop', (e) => {
+                alert(3);
                 const dt = e.dataTransfer;
-                const files = dt.files;
-
-                handleFiles(files);
-            }
-
-            function handleFiles(files) {
-                ([...files]).forEach(uploadFile);
-            }
-
-            async function uploadFile(file) {
-                actionFiles.uploadsFiles(file);
-            }
+                const files: any = dt.files;
+                ([...files]).forEach(actionFiles.uploadsFiles);
+            }, false); */
         });
     }
 
