@@ -17,6 +17,14 @@ export const actionFiles = {
             },
         });
     },
+    getLink(id: string) {
+        Dispatcher.dispatch({
+            actionName: 'getLink',
+            options: {
+                id,
+            },
+        });
+    },
     uploadsFiles(options: any) {
         Dispatcher.dispatch({
             actionName: 'uploadsFiles',

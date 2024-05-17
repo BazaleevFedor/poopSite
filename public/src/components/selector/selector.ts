@@ -1,5 +1,6 @@
 import { actionFiles } from '../../actions/actionFiles';
 import { debounce } from '../../modules/utils';
+import filesStore from "../../stores/filesStore";
 
 const SelectorsValue = {
     TIME: 'modifiedTime',
@@ -25,6 +26,17 @@ export class Selector {
             sort.classList.toggle('desc');
             actionFiles.getFiles(true);
         }, 200));
+
+        const trash: HTMLElement = document.getElementById('ts-trash');
+        trash.addEventListener('click', debounce(() => {
+            if (filesStore.chooseFilesId.length) {
+                const arr = filesStore.chooseFilesId.map((item) => {
+                    return filesStore.files[Number(item)];
+                });
+                console.log(arr);
+                actionFiles.removeFiles(arr);
+            }
+        }, 200));
     }
 
     render() {
@@ -36,7 +48,7 @@ export class Selector {
                     <option value="${ SelectorsValue.SIZE }">По размеру</option>
                 </select>
             </div>
-            <button class="select-button desc" id="ts-sort">
+            <button class="select-button sort desc" id="ts-sort">
                 <img src="http://localhost:8081/static/img/sort.svg" alt="sort">
             </button>
             <button class="select-button select-button_disabled" id="ts-download">

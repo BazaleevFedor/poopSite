@@ -52,6 +52,51 @@
         position: fixed;
     }
 
+    @keyframes slideDown {
+        from {
+            top: -60px;
+            opacity: 0;
+        }
+        to {
+            top: 20px;
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideUp {
+        from {
+            top: 20px;
+            opacity: 1;
+        }
+        to {
+            top: -60px;
+            opacity: 0;
+        }
+    }
+
+    .copy-access {
+        position: fixed;
+        top: -60px;
+        left: 50%;
+        border-radius: 12px;
+
+        width: 200px;
+        height: 40px;
+        background: #E9E9E9;
+        font-family: InterMedium, sans-serif;
+        font-size: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        opacity: 0;
+        animation: slideUp 1s forwards;
+    }
+
+    .copy-access.show {
+        animation: slideDown 1s forwards;
+    }
+
     .modal-wrapper {
         position: fixed;
         top: 0;

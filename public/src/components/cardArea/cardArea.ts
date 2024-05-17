@@ -5,13 +5,11 @@ import {debounce, throttle} from '../../modules/utils';
 import { actionFiles } from '../../actions/actionFiles';
 
 export class CardArea {
-    curMenuId: string;
     private _view: HTMLElement;
 
     constructor(root: HTMLElement) {
         root.innerHTML = cardAreaHTML;
         this._view = document.getElementById('cardArea');
-        this.curMenuId = undefined;
 
         this._addStore();
         this._addEventListeners();
@@ -86,10 +84,12 @@ export class CardArea {
             }
 
             if (clickedCard.closest('.card__share')) {
-                const menu = clickedCard.querySelector('[data-tag="menu"]');
-                menu.classList.toggle('hide');
-                if (!menu.classList.contains('hide')) this.curMenuId = clickedCard.parentElement.getAttribute('data-tag');
-
+                const curFileId = clickedCard.parentElement.parentElement.getAttribute('data-tag');
+                actionFiles.getLink(curFileId);
+                clickedCard.setAttribute('src', 'http://localhost:8081/static/img/share_active.svg');
+                setTimeout(() => {
+                    clickedCard.setAttribute('src', 'http://localhost:8081/static/img/share.svg');
+                }, 2000);
                 this._clearChoose();
             }
         });
@@ -104,11 +104,6 @@ export class CardArea {
                 actionFiles.getFiles(false);
             }
         }, 200));
-    }
-
-    private _closeMenu() {
-        this._view.querySelector(`[data-tag="${this.curMenuId}"]`).querySelector('[data-tag="menu"]').classList.add('hide');
-        this.curMenuId = undefined;
     }
 
     private _chooseFile(id: string) {

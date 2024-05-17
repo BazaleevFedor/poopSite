@@ -1,8 +1,11 @@
 const apiUrls = {
     FILES_GET: '/files',
+    FOLDER_GET: '/folder',
     FILES_VIEW_LINK: '/get-view-link',
+    FILES_LINK: '/get-share-link',
     FILES_UPLOAD: '/upload',
-    FILES_REMOVE: '/api/',
+    FILES_REMOVE: '/del-files',
+    FILES_DOWNLOAD: '/downloadFiles',
 
     USER_SIGN_IN: '/sign-in',
     USER_GET_NAME: '/get-username',
@@ -16,6 +19,7 @@ const apiUrls = {
 const RequestType = {
     GET: 'GET',
     POST: 'POST',
+    DELETE: 'DELETE',
 } as const;
 
 class Ajax {
@@ -105,9 +109,23 @@ class Ajax {
         }
     }
 
-    async uploadsFiles(options: any) {
+    async getFolder(options: { searchQuery: string; nextPageToken: string; pageSize: string; sortOrder: string; nextOwnerIndex: string; parentFolder: string }) {
+        try {
+            const response = await this._request(apiUrls.FOLDER_GET, RequestType.POST, JSON.stringify(options));
+
+            const data = await response.json();
+            return data || null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async uploadsFiles(options: any, owner: string, id: string) {
         const formData = new FormData();
         formData.append('files', options);
+
+        if (owner) formData.append('owner', owner);
+        if (id) formData.append('fileId', id);
 
         try {
             const response = await this._request(apiUrls.FILES_UPLOAD, RequestType.POST, formData);
@@ -119,9 +137,42 @@ class Ajax {
         }
     }
 
+    async removeFiles(options: any) {
+        try {
+            const response = await this._request(apiUrls.FILES_REMOVE, RequestType.DELETE, JSON.stringify(options));
+
+            const data = await response.json();
+            return data || null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async downloadFiles(options: any) {
+        try {
+            const response = await this._request(apiUrls.FILES_DOWNLOAD, RequestType.POST, JSON.stringify(options));
+
+            const data = await response.json();
+            return data || null;
+        } catch (e) {
+            return null;
+        }
+    }
+
     async getViewLink(options: { id: string }) {
         try {
             const response = await this._request(apiUrls.FILES_VIEW_LINK, RequestType.POST, JSON.stringify(options));
+
+            const data = await response.json();
+            return data || null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async getLink(options: { id: string; owner: string }) {
+        try {
+            const response = await this._request(apiUrls.FILES_LINK, RequestType.POST, JSON.stringify(options));
 
             const data = await response.json();
             return data || null;

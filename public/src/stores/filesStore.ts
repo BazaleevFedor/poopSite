@@ -1,9 +1,11 @@
 import Dispatcher from '../dispatcher/dispatcher';
 import Ajax from '../modules/ajax';
+import {actionFiles} from "../actions/actionFiles";
 
 type FilesData = {
+    owner: string;
     mimeType: any;
-    id: number;
+    id: string;
     name: string;
 };
 
@@ -56,6 +58,12 @@ class filesStore {
         case 'uploadsFiles':
             await this._uploadsFiles(action.options);
             break;
+        case 'removeFiles':
+            await this._removeFiles(action.options);
+            break;
+        case 'getLink':
+            await this._getLink(action.options);
+            break;
         default:
             return;
         }
@@ -71,18 +79,19 @@ class filesStore {
         const selector: HTMLSelectElement = document.getElementById('ts-selector') as HTMLSelectElement;
         const sort: boolean = document.getElementById('ts-sort').classList.contains('desc');
         const search = document.getElementById('ts-search') as HTMLInputElement;
+        const urlParams = new URLSearchParams(window.location.search);
 
         options = {
             ...options,
             pageSize: '40',
             nextPageToken: this.nextPageToken,
             owner: this.nextOwnerIndex,
-            parentFolder: window.location.pathname.includes('folder') ? window.location.pathname.split('/').at(-1) : undefined,
+            parentFolder: urlParams.get('id') || undefined,
             searchQuery: search.value,
         };
         if (selector.value) options.sortOrder = sort ? selector.value + ' desc' : selector.value;
 
-        const request = await Ajax.getFiles(options);
+        const request = options.parentFolder ? await Ajax.getFolder(options) : await Ajax.getFiles(options);
 
         if (options.isNewPage) this.files = [];
         this.newFiles = request?.fileDtos || [];
@@ -93,10 +102,8 @@ class filesStore {
     }
 
     async _getViewLink(options: any) {
-        console.log(options);
-        console.log(this.files[options.id]);
         if (this.files[options.id].mimeType.includes('application/vnd.google-apps.folder')) {
-            window.location.href = `/folders/${this.files[options.id].id}`;
+            window.location.href = `/folders?id=${this.files[options.id].id}&owner=${this.files[options.id].owner}`;
             return;
         }
         const googleLink = await Ajax.getViewLink({ id: this.files[options.id].id.toString() });
@@ -107,8 +114,30 @@ class filesStore {
         }
     }
 
+    async _getLink(options: any) {
+        const googleLink = await Ajax.getLink({ id: this.files[options.id].id, owner: this.files[options.id].owner });
+        if (googleLink.url) {
+            navigator.clipboard.writeText(googleLink.url).then(() => {
+                document.getElementById('copyAccess').textContent = 'Ссылка скопирована';
+                document.getElementById('copyAccess').classList.add('show');
+                document.getElementById('copyAccess').classList.remove('hide');
+                setTimeout(() => {
+                    document.getElementById('copyAccess').classList.remove('show');
+                }, 2000);
+            });
+        } else {
+            document.getElementById('copyAccess').textContent = 'Не удалось скопировать';
+            document.getElementById('copyAccess').classList.add('show');
+            document.getElementById('copyAccess').classList.remove('hide');
+            setTimeout(() => {
+                document.getElementById('copyAccess').classList.remove('show');
+            }, 2000);
+        }
+    }
+
     async _uploadsFiles(options: any) {
-        const response = await Ajax.uploadsFiles(options);
+        const urlParams = new URLSearchParams(window.location.search);
+        const response = await Ajax.uploadsFiles(options, urlParams.get('owner') || undefined, urlParams.get('id') || undefined);
 
         const dropArea = document.getElementById('dropFiles');
         if (response) {
@@ -117,6 +146,25 @@ class filesStore {
         } else {
             dropArea.classList.add('drop-files_error');
             console.log('File upload failed');
+        }
+
+        const dropFilesWrapper = document.getElementById('dropFilesWrapper');
+        setTimeout(() => {
+            dropFilesWrapper.classList.add('hide');
+            dropArea.classList.remove('drop-files_error');
+            dropArea.classList.remove('drop-files_active');
+            actionFiles.getFiles(true);
+        }, 2000);
+    }
+
+    private async _removeFiles(options: any) {
+        console.log(options);
+        const response = await Ajax.removeFiles(options);
+
+        if (response) {
+            actionFiles.getFiles(true);
+        } else {
+            alert('не получилось удалить');
         }
     }
 }
