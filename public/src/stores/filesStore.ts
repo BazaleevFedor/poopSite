@@ -33,6 +33,7 @@ class filesStore {
         this.chooseFilesId = [];
         this.nextPageToken = undefined;
         this.nextOwnerIndex = undefined;
+        document.getElementById('cardArea').innerHTML = '';
     }
 
     registerCallback(callback: any) {
@@ -104,6 +105,10 @@ class filesStore {
         if (!request) alert('Добавьте гугл аккаунт');
 
         this._refreshStore();
+        if (this.files.length + this.newFiles.length < 40 && (this.nextPageToken || this.nextOwnerIndex)) {
+            actionFiles.getFiles(false);
+            return;
+        }
     }
 
     async _getViewLink(options: any) {
