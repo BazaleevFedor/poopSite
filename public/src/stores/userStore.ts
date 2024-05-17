@@ -53,8 +53,19 @@ class UserStore {
     }
 
     async _signIn(options: { username: string; password: string }) {
-        this.userData.isAuth = await Ajax.signIn(options);
-        actionUser.getUsername();
+        const resp = await Ajax.signIn(options);
+        if (!resp) {
+            document.getElementById('authModal').querySelectorAll('.input-block')[0].firstElementChild.classList.add('input-block__field-incorrect');
+            document.getElementById('authModal').querySelectorAll('.input-block')[1].firstElementChild.classList.add('input-block__field-incorrect');
+            document.getElementById('authModal').querySelectorAll('.input-block')[0].lastElementChild.classList.remove('hide');
+            document.getElementById('authModal').querySelectorAll('.input-block')[0].lastElementChild.textContent = 'Неверный логин или пароль';
+        } else {
+            document.getElementById('authModal').querySelectorAll('.input-block')[0].firstElementChild.classList.remove('input-block__field-incorrect');
+            document.getElementById('authModal').querySelectorAll('.input-block')[0].lastElementChild.classList.add('hide');
+
+            this.userData.isAuth = resp;
+            actionUser.getUsername();
+        }
     }
 
     async _getUsername() {
@@ -64,8 +75,20 @@ class UserStore {
     }
 
     async _signUp(options: { username: string; password: string }) {
-        this.userData.isAuth = await Ajax.signUp(options);
-        actionUser.getUsername();
+        const resp = await Ajax.signUp(options);
+
+        if (!resp) {
+            document.getElementById('authModal').querySelectorAll('.input-block')[0].firstElementChild.classList.add('input-block__field-incorrect');
+            document.getElementById('authModal').querySelectorAll('.input-block')[1].firstElementChild.classList.add('input-block__field-incorrect');
+            document.getElementById('authModal').querySelectorAll('.input-block')[0].lastElementChild.classList.remove('hide');
+            document.getElementById('authModal').querySelectorAll('.input-block')[0].lastElementChild.textContent = 'Такой пользователь уже есть';
+        } else {
+            document.getElementById('authModal').querySelectorAll('.input-block')[0].firstElementChild.classList.remove('input-block__field-incorrect');
+            document.getElementById('authModal').querySelectorAll('.input-block')[0].lastElementChild.classList.add('hide');
+
+            this.userData.isAuth = resp;
+            actionUser.getUsername();
+        }
     }
 
     async _signOut() {

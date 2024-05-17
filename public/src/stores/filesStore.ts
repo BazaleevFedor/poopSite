@@ -152,10 +152,8 @@ class filesStore {
         const dropArea = document.getElementById('dropFiles');
         if (response) {
             dropArea.classList.add('drop-files_active');
-            console.log('File uploaded successfully');
         } else {
             dropArea.classList.add('drop-files_error');
-            console.log('File upload failed');
         }
 
         const dropFilesWrapper = document.getElementById('dropFilesWrapper');

@@ -21,7 +21,6 @@ export class AuthModal {
 
         this._toggle();
         this._view.querySelector('[data-tag="regBtn"]').addEventListener('click', () => {
-            console.log(this._isAuth);
             this._isAuth = !this._isAuth;
             this._toggle();
         });

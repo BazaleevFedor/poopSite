@@ -1,5 +1,5 @@
 import { actionFiles } from '../../actions/actionFiles';
-import {debounce} from "../../modules/utils";
+import { debounce } from '../../modules/utils';
 
 export class InputField {
     private _root: HTMLElement;
@@ -16,7 +16,6 @@ export class InputField {
 
     setError(isError: string) {
         const inputField = this._root.querySelector('[data-tag="input"]');
-        inputField.classList.toggle('input-block__field-correct', isError === '');
         inputField.classList.toggle('input-block__field-incorrect', isError !== '');
 
         const errorField = this._root.querySelector('[data-tag="error"]');
@@ -32,7 +31,7 @@ export class InputField {
     render() {
         this._root.innerHTML = `
             <div class="input-block">
-                <input class="input-block__field input-block__field-correct" ${this.isSearch ? 'id="ts-search"' : ''} data-tag="input" placeholder="${ this._placeholder }" type="${ this._type }">
+                <input class="input-block__field" ${this.isSearch ? 'id="ts-search"' : ''} data-tag="input" placeholder="${ this._placeholder }" type="${ this._type }">
                 <div class="input-block__error hide" data-tag="error"></div>
             </div>
         `;
