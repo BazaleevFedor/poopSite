@@ -37,4 +37,10 @@ export const actionFiles = {
             options,
         });
     },
+    downloadFiles(options: any) {
+        Dispatcher.dispatch({
+            actionName: 'downloadFiles',
+            options,
+        });
+    },
 };

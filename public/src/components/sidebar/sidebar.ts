@@ -9,7 +9,7 @@ const adblockImg = [
     'https://sun9-23.userapi.com/impf/c604420/v604420519/1736f/Bqgk4DYOLoo.jpg?size=454x807&quality=96&sign=8821bce442b8173a005d1efbfc9d0c3c&c_uniq_tag=-U6pb11BQ-tdjfCHEtJNo1AcrPsjOooNwFI_0sMUZrE&type=album',
     'https://sun9-20.userapi.com/impf/c633919/v633919926/2544c/MoWMT7bmxWI.jpg?size=217x289&quality=96&sign=a7294b6af24236e415516f6601300279&c_uniq_tag=aDsa999Ki-amodiiybrQOZZSoVu2JVU3FM3MTq-ALsg&type=album',
     'https://sun9-26.userapi.com/impf/c627720/v627720485/3f2ef/1oH1Ap3XRYk.jpg?size=199x304&quality=96&sign=66bad2192391bfed5728bffda80977b6&c_uniq_tag=gO81PMYQef40o8KRyfmApHSY_eUC94tk3WaptDU8JZc&type=album',
-    'https://sun9-39.userapi.com/impf/c625831/v625831137/5a3bc/irt3POdwa_Y.jpg?size=121x167&quality=96&sign=de16c239b4472e378ee950b31ecabc75&c_uniq_tag=40ee2HZtnSTFXzLw0EDS_89DV6MOew6O5sxBI2BO-nU&type=album',
+    // 'https://sun9-39.userapi.com/impf/c625831/v625831137/5a3bc/irt3POdwa_Y.jpg?size=121x167&quality=96&sign=de16c239b4472e378ee950b31ecabc75&c_uniq_tag=40ee2HZtnSTFXzLw0EDS_89DV6MOew6O5sxBI2BO-nU&type=album',
     'https://sun9-64.userapi.com/impf/c633430/v633430060/1303f/tll0QcPYCfQ.jpg?size=240x278&quality=96&sign=3193c4a88cb522f55bd6836d711e15d9&c_uniq_tag=am1WNBEs0VSAgu1cxgAUmccrZF_xPqXYCHHTLAmd_KQ&type=album',
     'https://sun9-13.userapi.com/impf/c631220/v631220565/eac1/X4i_ESN1tGQ.jpg?size=640x437&quality=96&sign=b7e2ffc26799259aedeca84b832762a8&c_uniq_tag=_v_3UfdwA96aiJO2q6Lg-jNrQ97ayhkyWPr6qLPgLIQ&type=album',
     'https://sun9-10.userapi.com/impf/c630720/v630720118/1445f/tAsRbugCwCo.jpg?size=755x321&quality=96&sign=5569223e98dded14be45eaca1247b979&c_uniq_tag=zxRtZGVDVHObB_FkQzRPhZYrwNsSGMZDuF6nQbcKifg&type=album',

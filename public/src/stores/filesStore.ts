@@ -61,6 +61,9 @@ class filesStore {
         case 'removeFiles':
             await this._removeFiles(action.options);
             break;
+        case 'downloadFiles':
+            await this._downloadFiles(action.options);
+            break;
         case 'getLink':
             await this._getLink(action.options);
             break;
@@ -158,13 +161,21 @@ class filesStore {
     }
 
     private async _removeFiles(options: any) {
-        console.log(options);
         const response = await Ajax.removeFiles(options);
 
         if (response) {
             actionFiles.getFiles(true);
         } else {
             alert('не получилось удалить');
+        }
+    }
+
+    private async _downloadFiles(options: any) {
+        const response = await Ajax.downloadFiles(options);
+
+        if (response) {
+        } else {
+            alert('не получилось скачать');
         }
     }
 }

@@ -1,6 +1,6 @@
 import { actionFiles } from '../../actions/actionFiles';
 import { debounce } from '../../modules/utils';
-import filesStore from "../../stores/filesStore";
+import filesStore from '../../stores/filesStore';
 
 const SelectorsValue = {
     TIME: 'modifiedTime',
@@ -33,8 +33,17 @@ export class Selector {
                 const arr = filesStore.chooseFilesId.map((item) => {
                     return filesStore.files[Number(item)];
                 });
-                console.log(arr);
                 actionFiles.removeFiles(arr);
+            }
+        }, 200));
+
+        const download: HTMLElement = document.getElementById('ts-download');
+        download.addEventListener('click', debounce(() => {
+            if (filesStore.chooseFilesId.length) {
+                const arr = filesStore.chooseFilesId.map((item) => {
+                    return filesStore.files[Number(item)];
+                });
+                ([...arr]).forEach(actionFiles.downloadFiles);
             }
         }, 200));
     }

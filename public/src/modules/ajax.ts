@@ -5,7 +5,7 @@ const apiUrls = {
     FILES_LINK: '/get-share-link',
     FILES_UPLOAD: '/upload',
     FILES_REMOVE: '/del-files',
-    FILES_DOWNLOAD: '/downloadFiles',
+    FILES_DOWNLOAD: '/downloadFile',
 
     USER_SIGN_IN: '/sign-in',
     USER_GET_NAME: '/get-username',
@@ -152,8 +152,17 @@ class Ajax {
         try {
             const response = await this._request(apiUrls.FILES_DOWNLOAD, RequestType.POST, JSON.stringify(options));
 
-            const data = await response.json();
-            return data || null;
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = options.name;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+
+            return response.ok;
         } catch (e) {
             return null;
         }
