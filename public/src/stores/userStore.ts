@@ -72,7 +72,7 @@ class UserStore {
         this.userData.isAuth = false;
         this.userData.username = undefined;
         localStorage.removeItem('jwtToken');
-        filesStore.signOut();
+        filesStore.clear();
         this._refreshStore();
     }
 }

@@ -1,6 +1,7 @@
 const apiUrls = {
     FILES_GET: '/files',
-    FILES_ADD: '/api/',
+    FILES_VIEW_LINK: '/get-view-link',
+    FILES_UPLOAD: '/upload',
     FILES_REMOVE: '/api/',
 
     USER_SIGN_IN: '/sign-in',
@@ -28,12 +29,15 @@ class Ajax {
         this._backendUrl = 'http://' + this._backendHostname + ':' + this._backendPort;
     }
 
-    _request(apiUrlType: string, requestType: string, body?: string) {
+    _request(apiUrlType: string, requestType: string, body?: string | FormData) {
         const requestUrl = this._backendUrl + apiUrlType;
 
         const headers = {
-            'Content-Type': 'application/json',
         };
+
+        if (apiUrlType !== apiUrls.FILES_UPLOAD) {
+            headers['Content-Type'] = 'application/json';
+        }
 
         if (localStorage.getItem('jwtToken')) {
             headers['Authorization'] = `Bearer ${ localStorage.getItem('jwtToken') }`;
@@ -93,6 +97,31 @@ class Ajax {
     async getFiles(options: { searchQuery: string; nextPageToken: string; pageSize: string; sortOrder: string; nextOwnerIndex: string; parentFolder: string }) {
         try {
             const response = await this._request(apiUrls.FILES_GET, RequestType.POST, JSON.stringify(options));
+
+            const data = await response.json();
+            return data || null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async uploadsFiles(options: any) {
+        const formData = new FormData();
+        formData.append('files', options);
+
+        try {
+            const response = await this._request(apiUrls.FILES_UPLOAD, RequestType.POST, formData);
+
+            const data = await response.json();
+            return data || null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async getViewLink(options: { id: string }) {
+        try {
+            const response = await this._request(apiUrls.FILES_VIEW_LINK, RequestType.POST, JSON.stringify(options));
 
             const data = await response.json();
             return data || null;

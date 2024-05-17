@@ -1,12 +1,17 @@
+import { actionFiles } from '../../actions/actionFiles';
+import {debounce} from "../../modules/utils";
+
 export class InputField {
     private _root: HTMLElement;
     private _placeholder: string;
     private _type: string;
+    private isSearch: boolean;
 
-    constructor(root: HTMLElement, placeholder: string, type: string) {
+    constructor(root: HTMLElement, placeholder: string, type: string, isSearch = false) {
         this._root = root;
         this._placeholder = placeholder;
         this._type = type;
+        this.isSearch = isSearch;
     }
 
     setError(isError: string) {
@@ -27,15 +32,13 @@ export class InputField {
     render() {
         this._root.innerHTML = `
             <div class="input-block">
-                <input class="input-block__field input-block__field-correct" data-tag="input" placeholder="${ this._placeholder }" type="${ this._type }">
+                <input class="input-block__field input-block__field-correct" ${this.isSearch ? 'id="ts-search"' : ''} data-tag="input" placeholder="${ this._placeholder }" type="${ this._type }">
                 <div class="input-block__error hide" data-tag="error"></div>
             </div>
         `;
 
-        // this._root.oninput = this.onInput.bind(this);
+        if (this.isSearch) this._root.oninput = debounce(() => {
+            actionFiles.getFiles(true);
+        }, 800);
     }
-
-    /* private onInput() {
-        alert('her');
-    } */
 }

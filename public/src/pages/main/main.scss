@@ -25,6 +25,21 @@
             }
         }
 
+        .main-selectors {
+            display: grid;
+            grid-template-columns: 1fr max-content;
+            gap: 16px;
+
+            .selector-field {
+                display: grid;
+                grid-template-columns: max-content max-content max-content max-content;
+                gap: 6px;
+
+                height: max-content;
+                width: max-content;
+            }
+        }
+
         .card-area-wrapper {
             width: 100%;
         }

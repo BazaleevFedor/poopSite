@@ -1,15 +1,26 @@
 import Dispatcher from '../dispatcher/dispatcher';
 
 export const actionFiles = {
-    getFiles(isNewPage: boolean, searchQuery: string = undefined, sortOrder: string = undefined, parentFolder: string = undefined) {
+    getFiles(isNewPage: boolean) {
         Dispatcher.dispatch({
             actionName: 'getFiles',
             options: {
                 isNewPage,
-                searchQuery,
-                sortOrder,
-                parentFolder,
             },
+        });
+    },
+    getViewLink(id: string) {
+        Dispatcher.dispatch({
+            actionName: 'getViewLink',
+            options: {
+                id,
+            },
+        });
+    },
+    uploadsFiles(options: any) {
+        Dispatcher.dispatch({
+            actionName: 'uploadsFiles',
+            options,
         });
     },
     removeFiles(options: any) {

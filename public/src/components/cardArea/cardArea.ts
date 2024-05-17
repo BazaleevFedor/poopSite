@@ -5,11 +5,13 @@ import {debounce, throttle} from '../../modules/utils';
 import { actionFiles } from '../../actions/actionFiles';
 
 export class CardArea {
+    curMenuId: string;
     private _view: HTMLElement;
 
     constructor(root: HTMLElement) {
         root.innerHTML = cardAreaHTML;
         this._view = document.getElementById('cardArea');
+        this.curMenuId = undefined;
 
         this._addStore();
         this._addEventListeners();
@@ -28,9 +30,6 @@ export class CardArea {
             return;
         }
 
-        console.log(filesStore.files);
-        console.log(filesStore.newFiles);
-
         const startIndex = filesStore.files.length || 0;
         filesStore.newFiles.forEach((file, index) => {
             new Card(this._view, file, startIndex + index);
@@ -39,9 +38,17 @@ export class CardArea {
     }
 
     private _addEventListeners() {
+        this._view.addEventListener('dblclick', (e) => {
+            const clickedCard = e.target as HTMLElement;
+            if (clickedCard.closest('.card') && !clickedCard.closest('.card__options')) {
+                const cardId = clickedCard.closest('.card').getAttribute('data-tag');
+                actionFiles.getViewLink(filesStore.files[cardId].id);
+            }
+        });
+
         this._view.addEventListener('click', (e) => {
             const clickedCard = e.target as HTMLElement;
-            if (clickedCard.closest('.card') && !clickedCard.closest('.file-options')) {
+            if (clickedCard.closest('.card') && !clickedCard.closest('.card__options')) {
                 let cardId = clickedCard.closest('.card').getAttribute('data-tag');
                 const ctrlPressed = e.ctrlKey;
                 const shiftPressed = e.shiftKey;
@@ -73,8 +80,25 @@ export class CardArea {
                         this._chooseFile(i.toString());
                     }
                 }
+
+                document.getElementById('ts-download').classList.toggle('select-button_disabled', !filesStore.chooseFilesId.length);
+                document.getElementById('ts-trash').classList.toggle('select-button_disabled', !filesStore.chooseFilesId.length);
+            }
+
+            if (clickedCard.closest('.card__options')) {
+                const menu = clickedCard.querySelector('[data-tag="menu"]');
+                menu.classList.toggle('hide');
+                if (!menu.classList.contains('hide')) this.curMenuId = clickedCard.parentElement.getAttribute('data-tag');
+
+                this._clearChoose();
             }
         });
+
+        /* document.addEventListener('click', () => {
+            if (this.curMenuId) {
+                this._closeMenu();
+            }
+        }); */
 
         window.addEventListener('scroll', debounce(() => {
             if (!filesStore.newFiles.length) return;
@@ -82,10 +106,15 @@ export class CardArea {
             const documentHeight = document.documentElement.scrollHeight;
             const scrollTop = window.scrollY || window.pageYOffset;
 
-            if (scrollTop + windowHeight >= documentHeight) {
+            if (scrollTop + windowHeight >= documentHeight - 500) {
                 actionFiles.getFiles(false);
             }
         }, 200));
+    }
+
+    private _closeMenu() {
+        this._view.querySelector(`[data-tag="${this.curMenuId}"]`).querySelector('[data-tag="menu"]').classList.add('hide');
+        this.curMenuId = undefined;
     }
 
     private _chooseFile(id: string) {

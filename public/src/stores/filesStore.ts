@@ -19,13 +19,17 @@ class filesStore {
         this.files = [];
         this.newFiles = [];
         this.chooseFilesId = [];
+        this.nextPageToken = undefined;
+        this.nextOwnerIndex = undefined;
         Dispatcher.register(this._fromDispatch.bind(this));
     }
 
-    signOut() {
+    clear() {
         this.files = [];
         this.newFiles = [];
         this.chooseFilesId = [];
+        this.nextPageToken = undefined;
+        this.nextOwnerIndex = undefined;
     }
 
     registerCallback(callback: any) {
@@ -45,15 +49,38 @@ class filesStore {
         case 'getFiles':
             await this._getFiles(action.options);
             break;
+        case 'getViewLink':
+            await this._getViewLink(action.options);
+            break;
+        case 'uploadsFiles':
+            await this._uploadsFiles(action.options);
+            break;
         default:
             return;
         }
     }
 
     async _getFiles(options: any) {
-        options.pageSize = '40';
-        options.nextPageToken = this.nextPageToken;
-        options.nextOwnerIndex = this.nextOwnerIndex;
+        if (options.isNewPage) {
+            this.clear();
+        } else if (this.nextPageToken === null && this.nextOwnerIndex === null) {
+            return;
+        }
+
+        const selector: HTMLSelectElement = document.getElementById('ts-selector') as HTMLSelectElement;
+        const sort: boolean = document.getElementById('ts-sort').classList.contains('desc');
+        const search = document.getElementById('ts-search') as HTMLInputElement;
+
+        options = {
+            ...options,
+            pageSize: '40',
+            nextPageToken: this.nextPageToken,
+            owner: this.nextOwnerIndex,
+            parentFolder: window.location.pathname.includes('folder') ? window.location.pathname.split('/').at(-1) : undefined,
+            searchQuery: search.value,
+        };
+        if (selector.value) options.sortOrder = sort ? selector.value + ' desc' : selector.value;
+
         const request = await Ajax.getFiles(options);
 
         if (options.isNewPage) this.files = [];
@@ -62,6 +89,25 @@ class filesStore {
         this.nextOwnerIndex = request?.nextOwnerIndex;
 
         this._refreshStore();
+    }
+
+    async _getViewLink(options: any) {
+        const googleLink = await Ajax.getViewLink(options);
+        if (googleLink) {
+            window.open(googleLink.url, '_blank');
+        } else {
+            alert('Ошибка получения ссылки просмотра файла Google.');
+        }
+    }
+
+    async _uploadsFiles(options: any) {
+        const response = await Ajax.uploadsFiles(options);
+
+        if (response) {
+            console.log('File uploaded successfully');
+        } else {
+            console.log('File upload failed');
+        }
     }
 }
 
