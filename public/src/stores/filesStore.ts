@@ -101,6 +101,8 @@ class filesStore {
         this.nextPageToken = request?.nextPageToken;
         this.nextOwnerIndex = request?.nextOwnerIndex;
 
+        if (!request) alert('Добавьте гугл аккаунт');
+
         this._refreshStore();
     }
 

@@ -21,12 +21,7 @@ export class CardArea {
 
     render() {
         if (!filesStore.files.length) this.clear();
-        if (!filesStore?.newFiles?.length) {
-            setTimeout(() => {
-                alert('добавь гугл акк, сцука');
-            });
-            return;
-        }
+        if (!filesStore?.newFiles?.length) return;
 
         const startIndex = filesStore.files.length || 0;
         filesStore.newFiles.forEach((file, index) => {
