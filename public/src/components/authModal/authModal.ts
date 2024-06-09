@@ -17,7 +17,7 @@ export class AuthModal {
 
         this._username = new InputField(this._view.querySelector('[data-tag="username"]'), 'username', '');
         this._password = new InputField(this._view.querySelector('[data-tag="password"]'), 'password', 'password');
-        this._button = new Button(this._view.querySelector('[data-tag="button"]'), this._onButtonClick.bind(this), 'жмак');
+        this._button = new Button(this._view.querySelector('[data-tag="button"]'), this._onButtonClick.bind(this), 'Войти');
 
         this._toggle();
         this._view.querySelector('[data-tag="regBtn"]').addEventListener('click', () => {
@@ -38,6 +38,7 @@ export class AuthModal {
 
     private _toggle() {
         this._view.querySelector('[data-tag="title"]').innerHTML = this._isAuth ? 'Авторизация' : 'Регистрация';
+        this._button.changeButtonText(this._isAuth ? 'Войти' : 'Зарегистрироваться');
         this._view.querySelector('[data-tag="regTitle"]').innerHTML = this._isAuth ? 'Еще нет аккаунта?' : 'Уже есть аккаунт?';
         this._view.querySelector('[data-tag="regBtn"]').innerHTML = this._isAuth ? 'Регистрация' : 'Авторизация';
     }
