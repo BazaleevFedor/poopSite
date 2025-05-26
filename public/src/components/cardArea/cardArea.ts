@@ -1,7 +1,7 @@
 import { Card } from '../card/card';
 import cardAreaHTML from './cardArea.html';
 import filesStore from '../../stores/filesStore';
-import {debounce, throttle} from '../../modules/utils';
+import { debounce } from '../../modules/utils';
 import { actionFiles } from '../../actions/actionFiles';
 
 export class CardArea {
@@ -81,9 +81,9 @@ export class CardArea {
             if (clickedCard.closest('.card__share')) {
                 const curFileId = clickedCard.parentElement.parentElement.getAttribute('data-tag');
                 actionFiles.getLink(curFileId);
-                clickedCard.setAttribute('src', 'http://localhost:8081/static/img/share_active.svg');
+                clickedCard.setAttribute('src', '/static/img/share_active.svg');
                 setTimeout(() => {
-                    clickedCard.setAttribute('src', 'http://localhost:8081/static/img/share.svg');
+                    clickedCard.setAttribute('src', '/static/img/share.svg');
                 }, 2000);
                 this._clearChoose();
             }

@@ -58,13 +58,13 @@ export class Selector {
                 </select>
             </div>
             <button class="select-button sort desc" id="ts-sort">
-                <img src="http://localhost:8081/static/img/sort.svg" alt="sort">
+                <img src="/static/img/sort.svg" alt="sort">
             </button>
             <button class="select-button select-button_disabled" id="ts-download">
-                <img src="http://localhost:8081/static/img/download.svg" alt="download">
+                <img src="/static/img/download.svg" alt="download">
             </button>
             <button class="select-button select-button_disabled" id="ts-trash">
-                <img src="http://localhost:8081/static/img/trashm.svg" alt="trash">
+                <img src="/static/img/trashm.svg" alt="trash">
             </button>
         `;
 
