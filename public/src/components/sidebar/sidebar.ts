@@ -40,17 +40,17 @@ const adblockImg = [
     {src: 'https://basket-03.wbbasket.ru/vol345/part34539/34539995/images/c516x688/4.webp', href: linkinHref},
 
     // 18+
-    {src: 'https://basket-12.wbbasket.ru/vol1692/part169231/169231475/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=169231475'},
-    {src: 'https://basket-12.wbbasket.ru/vol1894/part189437/189437748/images/c516x688/2.webp', href: 'https://global.wildberries.ru/product?card=189437748'},
-    {src: 'https://basket-08.wbbasket.ru/vol1146/part114600/114600201/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=114600201'},
-    {src: 'https://basket-10.wbbasket.ru/vol1470/part147051/147051251/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=147051251'},
-    {src: 'https://basket-15.wbbasket.ru/vol2231/part223147/223147283/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=223147283&option=354084476'},
-    {src: 'https://basket-10.wbbasket.ru/vol1459/part145949/145949560/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=145949560'},
-    {src: 'https://feedback05.wbbasket.ru/vol1731/part173184/173184745/photos/fs.jpg', href: 'https://global.wildberries.ru/product?card=145949560'},
-    {src: 'https://basket-15.wbbasket.ru/vol2210/part221059/221059402/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=221059402&option=351225112'},
-    {src: 'https://basket-11.wbbasket.ru/vol1636/part163686/163686292/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=163686292&option=272798120'},
-    {src: 'https://basket-10.wbbasket.ru/vol1584/part158494/158494328/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=158494328&option=263758002'},
-    {src: 'https://basket-05.wbbasket.ru/vol743/part74321/74321050/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=74321050&option=125515550'},
+    // {src: 'https://basket-12.wbbasket.ru/vol1692/part169231/169231475/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=169231475'},
+    // {src: 'https://basket-12.wbbasket.ru/vol1894/part189437/189437748/images/c516x688/2.webp', href: 'https://global.wildberries.ru/product?card=189437748'},
+    // {src: 'https://basket-08.wbbasket.ru/vol1146/part114600/114600201/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=114600201'},
+    // {src: 'https://basket-10.wbbasket.ru/vol1470/part147051/147051251/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=147051251'},
+    // {src: 'https://basket-15.wbbasket.ru/vol2231/part223147/223147283/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=223147283&option=354084476'},
+    // {src: 'https://basket-10.wbbasket.ru/vol1459/part145949/145949560/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=145949560'},
+    // {src: 'https://feedback05.wbbasket.ru/vol1731/part173184/173184745/photos/fs.jpg', href: 'https://global.wildberries.ru/product?card=145949560'},
+    // {src: 'https://basket-15.wbbasket.ru/vol2210/part221059/221059402/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=221059402&option=351225112'},
+    // {src: 'https://basket-11.wbbasket.ru/vol1636/part163686/163686292/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=163686292&option=272798120'},
+    // {src: 'https://basket-10.wbbasket.ru/vol1584/part158494/158494328/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=158494328&option=263758002'},
+    // {src: 'https://basket-05.wbbasket.ru/vol743/part74321/74321050/images/c516x688/1.webp', href: 'https://global.wildberries.ru/product?card=74321050&option=125515550'},
 ];
 
 export class Sidebar {
