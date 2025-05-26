@@ -23,18 +23,18 @@ const RequestType = {
 } as const;
 
 class Ajax {
-    private _backendHostname: string;
-    private _backendPort: string;
-    private _backendUrl: string;
+    private readonly backendHostname: string;
+    private readonly backendPort: string;
+    private readonly backendUrl: string;
 
     constructor() {
-        this._backendHostname = '194.0.194.109';
-        this._backendPort = '8080';
-        this._backendUrl = 'http://' + this._backendHostname + ':' + this._backendPort;
+        this.backendHostname = process.env.IS_DEVELOPMENT ? 'localhost' : '194.0.194.109';
+        this.backendPort = '8080';
+        this.backendUrl = 'http://' + this.backendHostname + ':' + this.backendPort;
     }
 
     _request(apiUrlType: string, requestType: string, body?: string | FormData) {
-        const requestUrl = this._backendUrl + apiUrlType;
+        const requestUrl = this.backendUrl + apiUrlType;
 
         const headers = {
         };
