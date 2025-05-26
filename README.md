@@ -12,7 +12,7 @@ npm start
 изменить порт (добавить флаг в package.json)
 ```json
 "scripts": {
-    "start": "webpack-dev-server --mode development --port 9000",
+    "start": "webpack serve --mode development --port 9000",
 }
 ```
 
