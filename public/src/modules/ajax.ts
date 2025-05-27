@@ -1,4 +1,4 @@
-const apiUrls = {
+const API_LOCAL_URLS = {
     FILES_GET: '/files',
     FOLDER_GET: '/folder',
     FILES_VIEW_LINK: '/get-view-link',
@@ -10,10 +10,28 @@ const apiUrls = {
     USER_SIGN_IN: '/sign-in',
     USER_GET_NAME: '/get-username',
     USER_SIGN_UP: '/sign-up',
-    USER_SIGN_OUT: '/api/', // ToDo
+    USER_SIGN_OUT: '/api/',
 
     GOOGLE_GET_LINK: '/add-account',
     GOOGLE_SEND_LINK: '/Callback',
+} as const;
+
+const API_PROD_URLS = {
+    FILES_GET: '/api/files',
+    FOLDER_GET: '/api/folder',
+    FILES_VIEW_LINK: '/api/get-view-link',
+    FILES_LINK: '/api/get-share-link',
+    FILES_UPLOAD: '/api/upload',
+    FILES_REMOVE: '/api/del-files',
+    FILES_DOWNLOAD: '/api/downloadFile',
+
+    USER_SIGN_IN: '/api/sign-in',
+    USER_GET_NAME: '/api/get-username',
+    USER_SIGN_UP: '/api/sign-up',
+    USER_SIGN_OUT: '/api/api/',
+
+    GOOGLE_GET_LINK: '/api/add-account',
+    GOOGLE_SEND_LINK: '/api/Callback',
 } as const;
 
 const RequestType = {
@@ -26,9 +44,11 @@ class Ajax {
     private readonly backendHostname: string;
     private readonly backendPort: string;
     private readonly backendUrl: string;
+    private readonly apiUrls: any;
 
     constructor() {
         this.backendHostname = process.env.IS_DEVELOPMENT ? 'localhost' : '194.0.194.109';
+        this.apiUrls = process.env.IS_DEVELOPMENT ? API_LOCAL_URLS : API_PROD_URLS;
         this.backendPort = '8080';
         this.backendUrl = 'http://' + this.backendHostname + ':' + this.backendPort;
     }
@@ -39,7 +59,7 @@ class Ajax {
         const headers = {
         };
 
-        if (apiUrlType !== apiUrls.FILES_UPLOAD) {
+        if (apiUrlType !== this.apiUrls.FILES_UPLOAD) {
             headers['Content-Type'] = 'application/json';
         }
 
@@ -57,7 +77,7 @@ class Ajax {
 
     async signIn({ username, password }) {
         try {
-            const response = await this._request(apiUrls.USER_SIGN_IN, RequestType.POST, JSON.stringify({
+            const response = await this._request(this.apiUrls.USER_SIGN_IN, RequestType.POST, JSON.stringify({
                 username,
                 password
             }));
@@ -73,7 +93,7 @@ class Ajax {
 
     async getUsername() {
         try {
-            const response = await this._request(apiUrls.USER_GET_NAME, RequestType.GET);
+            const response = await this._request(this.apiUrls.USER_GET_NAME, RequestType.GET);
             const data = await response.json();
 
             return data?.username;
@@ -84,7 +104,7 @@ class Ajax {
 
     async signUp({ username, password }) {
         try {
-            const response = await this._request(apiUrls.USER_SIGN_UP, RequestType.POST, JSON.stringify({
+            const response = await this._request(this.apiUrls.USER_SIGN_UP, RequestType.POST, JSON.stringify({
                 username,
                 password
             }));
@@ -100,7 +120,7 @@ class Ajax {
 
     async getFiles(options: { searchQuery: string; nextPageToken: string; pageSize: string; sortOrder: string; nextOwnerIndex: string; parentFolder: string }) {
         try {
-            const response = await this._request(apiUrls.FILES_GET, RequestType.POST, JSON.stringify(options));
+            const response = await this._request(this.apiUrls.FILES_GET, RequestType.POST, JSON.stringify(options));
 
             const data = await response.json();
             return data || null;
@@ -111,7 +131,7 @@ class Ajax {
 
     async getFolder(options: { searchQuery: string; nextPageToken: string; pageSize: string; sortOrder: string; nextOwnerIndex: string; parentFolder: string }) {
         try {
-            const response = await this._request(apiUrls.FOLDER_GET, RequestType.POST, JSON.stringify(options));
+            const response = await this._request(this.apiUrls.FOLDER_GET, RequestType.POST, JSON.stringify(options));
 
             const data = await response.json();
             return data || null;
@@ -128,7 +148,7 @@ class Ajax {
         if (id) formData.append('fileId', id);
 
         try {
-            const response = await this._request(apiUrls.FILES_UPLOAD, RequestType.POST, formData);
+            const response = await this._request(this.apiUrls.FILES_UPLOAD, RequestType.POST, formData);
 
             const data = await response.json();
             return data || null;
@@ -139,7 +159,7 @@ class Ajax {
 
     async removeFiles(options: any) {
         try {
-            const response = await this._request(apiUrls.FILES_REMOVE, RequestType.DELETE, JSON.stringify(options));
+            const response = await this._request(this.apiUrls.FILES_REMOVE, RequestType.DELETE, JSON.stringify(options));
 
             const data = await response.json();
             return data || null;
@@ -150,7 +170,7 @@ class Ajax {
 
     async downloadFiles(options: any) {
         try {
-            const response = await this._request(apiUrls.FILES_DOWNLOAD, RequestType.POST, JSON.stringify(options));
+            const response = await this._request(this.apiUrls.FILES_DOWNLOAD, RequestType.POST, JSON.stringify(options));
 
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
@@ -170,7 +190,7 @@ class Ajax {
 
     async getViewLink(options: { id: string }) {
         try {
-            const response = await this._request(apiUrls.FILES_VIEW_LINK, RequestType.POST, JSON.stringify(options));
+            const response = await this._request(this.apiUrls.FILES_VIEW_LINK, RequestType.POST, JSON.stringify(options));
 
             const data = await response.json();
             return data || null;
@@ -181,7 +201,7 @@ class Ajax {
 
     async getLink(options: { id: string; owner: string }) {
         try {
-            const response = await this._request(apiUrls.FILES_LINK, RequestType.POST, JSON.stringify(options));
+            const response = await this._request(this.apiUrls.FILES_LINK, RequestType.POST, JSON.stringify(options));
 
             const data = await response.json();
             return data || null;
@@ -192,7 +212,7 @@ class Ajax {
 
     async getGoogleLink() {
         try {
-            const response = await this._request(apiUrls.GOOGLE_GET_LINK, RequestType.GET);
+            const response = await this._request(this.apiUrls.GOOGLE_GET_LINK, RequestType.GET);
             const data = await response.json();
             return data?.url || null;
         } catch (e) {
@@ -202,7 +222,7 @@ class Ajax {
 
     async sendGoogleToken({ code }) {
         try {
-            const response = await this._request(apiUrls.GOOGLE_SEND_LINK + `?code=${code}`, RequestType.GET);
+            const response = await this._request(this.apiUrls.GOOGLE_SEND_LINK + `?code=${code}`, RequestType.GET);
             return response.status === 200;
         } catch (e) {
             return null;
