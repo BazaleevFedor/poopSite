@@ -1,5 +1,6 @@
 const apiUrls = {
     FILES_GET: '/files',
+    SCANS_GET: '/scans',
     FOLDER_GET: '/folder',
     FILES_VIEW_LINK: '/get-view-link',
     FILES_LINK: '/get-share-link',
@@ -108,6 +109,17 @@ class Ajax {
     async getFolder(options: { searchQuery: string; nextPageToken: string; pageSize: string; sortOrder: string; nextOwnerIndex: string; parentFolder: string }) {
         try {
             const response = await this._request(apiUrls.FOLDER_GET, RequestType.POST, JSON.stringify(options));
+
+            const data = await response.json();
+            return data || null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async getScans(options: { searchQuery: string; nextPageToken: string; pageSize: string; sortOrder: string; nextOwnerIndex: string; parentFolder: string }) {
+        try {
+            const response = await this._request(apiUrls.FILES_GET, RequestType.POST, JSON.stringify(options));
 
             const data = await response.json();
             return data || null;

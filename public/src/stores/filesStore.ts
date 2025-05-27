@@ -11,6 +11,7 @@ type FilesData = {
 
 class filesStore {
     files: FilesData[];
+    scans: FilesData[];
     newFiles: FilesData[];
     chooseFilesId: string[];
     private _callbacks: any[];
@@ -20,6 +21,7 @@ class filesStore {
     constructor() {
         this._callbacks = [];
         this.files = [];
+        this.scans = [];
         this.newFiles = [];
         this.chooseFilesId = [];
         this.nextPageToken = undefined;
@@ -52,6 +54,9 @@ class filesStore {
         switch (action.actionName) {
         case 'getFiles':
             await this._getFiles(action.options);
+            break;
+        case 'getScans':
+            await this._getScans();
             break;
         case 'getViewLink':
             await this._getViewLink(action.options);
@@ -109,6 +114,26 @@ class filesStore {
             actionFiles.getFiles(false);
             return;
         }
+    }
+
+    async _getScans() {
+        const options = {
+            pageSize: '40',
+            nextPageToken: this.nextPageToken,
+            owner: this.nextOwnerIndex,
+            parentFolder: '',
+            searchQuery: '',
+            isNewPage: '',
+            sortOrder: '',
+            nextOwnerIndex: '',
+        };
+        const request = await Ajax.getFiles(options);
+
+        this.scans = request?.fileDtos || [];
+
+        if (!request) alert('Добавьте гугл аккаунт');
+
+        this._refreshStore();
     }
 
     async _getViewLink(options: any) {

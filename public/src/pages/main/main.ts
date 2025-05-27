@@ -2,6 +2,7 @@ import mainHTML from './main.html';
 import { Sidebar } from '../../components/sidebar/sidebar';
 import { InputField } from '../../components/inputField/inputField';
 import { CardArea } from '../../components/cardArea/cardArea';
+import { ScansArea } from "../../components/scansArea/scansArea";
 import { userStore } from '../../stores/userStore';
 import { AuthModal } from '../../components/authModal/authModal';
 import { actionUser } from '../../actions/actionUser';
@@ -17,6 +18,7 @@ export class MainPage {
     private _search: InputField;
     private _selector: Selector;
     private _cardArea: CardArea;
+    private _scansArea: ScansArea;
     private _authModal: AuthModal;
     private _profile: ProfileArea;
 
@@ -36,6 +38,7 @@ export class MainPage {
         this._search = new InputField(document.getElementById('searchField'), 'Поиск по файлам...', '', true);
         this._selector = new Selector(document.getElementById('selectorField'));
         this._cardArea = new CardArea(document.getElementById('cardAreaWrapper'));
+        this._scansArea = new ScansArea(document.getElementById('scansAreaWrapper'));
         this._authModal = new AuthModal(document.getElementById('authModalWrapper'));
         this._profile = new ProfileArea(document.getElementById('profileWrapper'));
 
@@ -53,6 +56,7 @@ export class MainPage {
 
         if (userStore.userData.isAuth) {
             actionFiles.getFiles(true);
+            actionFiles.getScans();
             this._toggleBlur(false);
         } else {
             this._signOut();
@@ -87,13 +91,13 @@ export class MainPage {
             });
 
             let dragCounter = 0;
-            drop.addEventListener('dragenter', (event) => {
+            drop.addEventListener('dragenter', () => {
                 if (!userStore.userData.isAuth) return;
                 dragCounter++;
                 dropFilesWrapper.classList.remove('hide');
             });
 
-            drop.addEventListener('dragleave', (event) => {
+            drop.addEventListener('dragleave', () => {
                 if (!userStore.userData.isAuth) return;
                 dragCounter--;
                 if (dragCounter === 0) {
