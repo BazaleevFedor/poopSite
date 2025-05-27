@@ -6,6 +6,8 @@
   "scripts": {
     "start": "webpack serve --mode development --port 8081",
     "build": "webpack --mode production",
+    "serve:prod": "./serve-prod.sh",
+    "serve:prod-stop": "sudo nginx -s stop",
     "lint": "eslint public/*.ts --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
