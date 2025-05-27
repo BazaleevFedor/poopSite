@@ -7,8 +7,8 @@ const apiUrls = {
     FILES_REMOVE: '/del-files',
     FILES_DOWNLOAD: '/downloadFile',
 
-    USER_SIGN_IN: '/sign-in',
-    USER_GET_NAME: '/get-username',
+    USER_SIGN_IN: '/api/sign-in',
+    USER_GET_NAME: '/api/get-username',
     USER_SIGN_UP: '/sign-up',
     USER_SIGN_OUT: '/api/',
 
