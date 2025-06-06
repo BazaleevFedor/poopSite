@@ -4,7 +4,7 @@ jest.mock('../src/modules/ajax');
 jest.mock('../src/actions/actionUser');
 
 // Mock HTML template
-jest.mock('../src/components/authModal/authModal.html', () => `
+jest.mock('../src/components/authModal/authModal.html', () => {return `
     <div id="authModal">
         <div data-tag="title"></div>
         <div data-tag="username"></div>
@@ -13,7 +13,7 @@ jest.mock('../src/components/authModal/authModal.html', () => `
         <div data-tag="regBtn"></div>
         <div data-tag="regTitle"></div>
     </div>
-`);
+`;});
 
 import { AuthModal } from '../src/components/authModal/authModal';
 import { actionUser } from '../src/actions/actionUser';
@@ -97,7 +97,7 @@ describe('Authentication', () => {
             });
 
             // Ждем завершения асинхронных операций
-            await new Promise(resolve => setTimeout(resolve, 0));
+            await new Promise(resolve => {return setTimeout(resolve, 0);});
 
             // Проверяем вызов Ajax
             expect(mockAjax.signIn).toHaveBeenCalled();
@@ -140,7 +140,7 @@ describe('Authentication', () => {
             });
 
             // Ждем завершения асинхронных операций
-            await new Promise(resolve => setTimeout(resolve, 0));
+            await new Promise(resolve => {return setTimeout(resolve, 0);});
 
             // Проверяем вызов Ajax
             expect(mockAjax.signIn).toHaveBeenCalled();
