@@ -61,7 +61,7 @@ describe('Authentication', () => {
             // жмакаем по кнопке
             button.click();
 
-            await new Promise(resolve => setTimeout(resolve, 0));
+            await new Promise(resolve => {return setTimeout(resolve, 0);});
 
             // проверяем вызов ajax
             expect(mockAjax.signIn).toHaveBeenCalled();
@@ -93,7 +93,7 @@ describe('Authentication', () => {
             // жмак
             button.click();
 
-            await new Promise(resolve => setTimeout(resolve, 0));
+            await new Promise(resolve => {return setTimeout(resolve, 0);});
 
             expect(mockAjax.signIn).toHaveBeenCalled();
             expect(mockAjax.signIn).toHaveBeenCalledWith(credentials);
