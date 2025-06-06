@@ -27,7 +27,7 @@ class Ajax {
     private readonly backendUrl: string;
 
     constructor() {
-        this.backendUrl = process.env.IS_DEVELOPMENT ? 'http://194.0.194.109:8080' : 'https://a97b-45-14-165-46.ngrok-free.app'
+        this.backendUrl = process.env.IS_DEVELOPMENT ? 'http://194.0.194.109:8080' : 'https://a97b-45-14-165-46.ngrok-free.app';
     }
 
     _request(apiUrlType: string, requestType: string, body?: string | FormData) {

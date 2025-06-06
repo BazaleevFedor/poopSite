@@ -2,9 +2,9 @@
  * класс, реализующий валидацию форм
  */
 class Validation {
-	constructor() {
+    constructor() {
 
-	}
+    }
 }
 
 export default new Validation();

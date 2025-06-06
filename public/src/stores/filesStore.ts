@@ -1,6 +1,6 @@
 import Dispatcher from '../dispatcher/dispatcher';
 import Ajax from '../modules/ajax';
-import {actionFiles} from "../actions/actionFiles";
+import {actionFiles} from '../actions/actionFiles';
 
 type FilesData = {
     owner: string;

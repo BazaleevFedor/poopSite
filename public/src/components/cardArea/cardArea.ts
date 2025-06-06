@@ -52,7 +52,7 @@ export class CardArea {
                 } else if (ctrlPressed) {
                     this._chooseFile(cardId);
                 } else {
-                    let { minId, maxId} = (() => {
+                    const chooseID = (() => {
                         let min = filesStore.files.length || 0;
                         let max = 0;
                         filesStore.chooseFilesId.forEach((item) => {
@@ -64,12 +64,12 @@ export class CardArea {
                     })();
                     this._clearChoose();
 
-                    if (Number(cardId) < Number(minId)) {
-                        minId = cardId;
-                        cardId = maxId;
+                    if (Number(cardId) < Number(chooseID.minId)) {
+                        chooseID.minId = cardId;
+                        cardId = chooseID.maxId;
                     }
 
-                    for (let i = Number(minId); i <= Number(cardId); i++) {
+                    for (let i = Number(chooseID.minId); i <= Number(cardId); i++) {
                         this._chooseFile(i.toString());
                     }
                 }

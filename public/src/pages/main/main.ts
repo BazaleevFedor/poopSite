@@ -2,7 +2,7 @@ import mainHTML from './main.html';
 import { Sidebar } from '../../components/sidebar/sidebar';
 import { InputField } from '../../components/inputField/inputField';
 import { CardArea } from '../../components/cardArea/cardArea';
-import { ScansArea } from "../../components/scansArea/scansArea";
+import { ScansArea } from '../../components/scansArea/scansArea';
 import { userStore } from '../../stores/userStore';
 import { AuthModal } from '../../components/authModal/authModal';
 import { actionUser } from '../../actions/actionUser';

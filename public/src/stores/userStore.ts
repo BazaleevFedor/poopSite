@@ -1,8 +1,7 @@
 import Dispatcher from '../dispatcher/dispatcher';
 import Ajax from '../modules/ajax';
-import filesStore from "./filesStore";
-import {actionGoogle} from "../actions/actionGoogle";
-import {actionUser} from "../actions/actionUser";
+import filesStore from './filesStore';
+import { actionUser } from '../actions/actionUser';
 
 type UserData = {
     isAuth: boolean;
