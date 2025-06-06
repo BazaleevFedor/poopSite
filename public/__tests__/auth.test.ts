@@ -1,10 +1,9 @@
-// Мокаем только необходимые зависимости
-jest.mock('../src/dispatcher/dispatcher');
+// Мокаем только Ajax для HTTP запросов
 jest.mock('../src/modules/ajax');
-jest.mock('../src/actions/actionUser');
 
 // Mock HTML template
-jest.mock('../src/components/authModal/authModal.html', () => {return `
+jest.mock('../src/components/authModal/authModal.html', () => {
+    return `
     <div id="authModal">
         <div data-tag="title"></div>
         <div data-tag="username"></div>
@@ -13,40 +12,25 @@ jest.mock('../src/components/authModal/authModal.html', () => {return `
         <div data-tag="regBtn"></div>
         <div data-tag="regTitle"></div>
     </div>
-`;});
+`;
+});
 
 import { AuthModal } from '../src/components/authModal/authModal';
-import { actionUser } from '../src/actions/actionUser';
-import Dispatcher from '../src/dispatcher/dispatcher';
-import { userStore } from '../src/stores/userStore';
+import { UserStore } from '../src/stores/userStore';
 import Ajax from '../src/modules/ajax';
 
 describe('Authentication', () => {
     let root: HTMLElement;
     let authModal: AuthModal;
+    let store: UserStore;
     const mockAjax = Ajax as jest.Mocked<typeof Ajax>;
-    const mockDispatcher = Dispatcher as jest.Mocked<typeof Dispatcher>;
 
     beforeEach(() => {
         // Очищаем все моки
         jest.clearAllMocks();
 
-        // Настраиваем моки
-        (mockDispatcher.dispatch as jest.Mock).mockImplementation((action) => {
-            if (action.actionName === 'signIn') {
-                userStore._signIn(action.options);
-            } else if (action.actionName === 'signUp') {
-                userStore._signUp(action.options);
-            }
-        });
-
-        // Настраиваем actionUser
-        (actionUser.signIn as jest.Mock).mockImplementation((options) => {
-            Dispatcher.dispatch({
-                actionName: 'signIn',
-                options
-            });
-        });
+        // Создаем новые экземпляры для каждого теста
+        store = new UserStore();
 
         // Setup DOM
         root = document.createElement('div');
@@ -55,12 +39,6 @@ describe('Authentication', () => {
         document.body.appendChild(root);
         authModal = new AuthModal(root);
         authModal.render();
-
-        // Reset store state
-        userStore.userData = {
-            isAuth: false,
-            username: undefined
-        };
     });
 
     afterEach(() => {
@@ -89,27 +67,21 @@ describe('Authentication', () => {
             // Вызываем клик по кнопке
             button.click();
 
-            // Проверяем цепочку вызовов
-            expect(actionUser.signIn).toHaveBeenCalledWith(credentials);
-            expect(mockDispatcher.dispatch).toHaveBeenCalledWith({
-                actionName: 'signIn',
-                options: credentials
-            });
-
             // Ждем завершения асинхронных операций
-            await new Promise(resolve => {return setTimeout(resolve, 0);});
+            await new Promise(resolve => {
+                return setTimeout(resolve, 0);
+            });
 
             // Проверяем вызов Ajax
             expect(mockAjax.signIn).toHaveBeenCalled();
             expect(mockAjax.signIn).toHaveBeenCalledWith(credentials);
 
             // Проверяем состояние стора после успешного входа
-            expect(userStore.userData.isAuth).toBe(true);
+            expect(store.userData.isAuth).toBe(true);
 
             // Проверяем, что был запрошен username
-            expect(actionUser.getUsername).toHaveBeenCalled();
             expect(mockAjax.getUsername).toHaveBeenCalled();
-            expect(userStore.userData.username).toBe('testUser');
+            expect(store.userData.username).toBe('testUser');
         });
 
         it('should handle failed sign in', async () => {
@@ -132,28 +104,26 @@ describe('Authentication', () => {
             // Вызываем клик по кнопке
             button.click();
 
-            // Проверяем цепочку вызовов
-            expect(actionUser.signIn).toHaveBeenCalledWith(credentials);
-            expect(mockDispatcher.dispatch).toHaveBeenCalledWith({
-                actionName: 'signIn',
-                options: credentials
-            });
-
             // Ждем завершения асинхронных операций
-            await new Promise(resolve => {return setTimeout(resolve, 0);});
+            await new Promise(resolve => {
+                return setTimeout(resolve, 0);
+            });
 
             // Проверяем вызов Ajax
             expect(mockAjax.signIn).toHaveBeenCalled();
             expect(mockAjax.signIn).toHaveBeenCalledWith(credentials);
 
             // Проверяем состояние стора после неудачного входа
-            expect(userStore.userData.isAuth).toBe(false);
-            expect(userStore.userData.username).toBeUndefined();
+            expect(store.userData.isAuth).toBe(false);
+            expect(store.userData.username).toBeUndefined();
         });
     });
 
     describe('Sign Up', () => {
-        it('should call actionUser.signUp with entered credentials', () => {
+        it('should call Ajax.signUp with entered credentials', () => {
+            // Настраиваем мок
+            mockAjax.signUp.mockResolvedValue(true);
+
             // Переключаемся в режим регистрации
             const regButton = root.querySelector('[data-tag="regBtn"]') as HTMLElement;
             regButton.click();
@@ -170,7 +140,7 @@ describe('Authentication', () => {
             button.click();
 
             // Проверяем, что был вызван signUp с правильными параметрами
-            expect(actionUser.signUp).toHaveBeenCalledWith({
+            expect(mockAjax.signUp).toHaveBeenCalledWith({
                 username: 'newUser',
                 password: 'newPass'
             });

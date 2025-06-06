@@ -8,7 +8,7 @@ type UserData = {
     username: string | undefined;
 };
 
-class UserStore {
+export class UserStore {
     userData: UserData = {
         isAuth: false,
         username: undefined,
