@@ -9,7 +9,7 @@ type FilesData = {
     name: string;
 };
 
-class filesStore {
+export class filesStore {
     files: FilesData[];
     scans: FilesData[];
     newFiles: FilesData[];
