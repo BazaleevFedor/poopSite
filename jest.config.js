@@ -1,6 +1,9 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
+  moduleNameMapper: {
+    '\\.html$': '<rootDir>/__mocks__/fileMock.js'
+  },
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   collectCoverage: true,
   collectCoverageFrom: [
