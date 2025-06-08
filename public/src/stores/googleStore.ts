@@ -41,9 +41,11 @@ class GoogleStore {
     }
 
     async _sendGoogleToken(options: { code: string }) {
-        if (!await Ajax.sendGoogleToken(options)) {
-            //alert('ошибка добавления токена');
-        }
+        await Ajax.sendGoogleToken(options);
+
+        /* if (!await Ajax.sendGoogleToken(options)) {
+            alert('ошибка добавления токена');
+        } */
     }
 }
 
