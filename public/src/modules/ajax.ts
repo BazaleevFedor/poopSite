@@ -119,7 +119,7 @@ class Ajax {
 
     async getScan(url: string) {
         try {
-            const response = await fetch(`http://localhost:8082/detect?url=${url}`);
+            const response = await fetch(`${this.backendUrl}/detect?url=${url}`);
 
             const data = await response.json();
             return data || null;
