@@ -6,7 +6,9 @@ npm install
 ```
 
 ```bash
-npm start
+npm run build
+
+./start-ngrok.sh
 ```
 
 изменить порт (добавить флаг в package.json)
@@ -16,6 +18,7 @@ npm start
 }
 ```
 
+разработка
 ```bash
-npm run build
+npm start
 ```

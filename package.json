@@ -6,9 +6,6 @@
   "scripts": {
     "start": "webpack serve --mode development --port 8081",
     "build": "webpack --mode production",
-    "serve:prod": "./scripts/serve-prod.sh",
-    "serve:prod-ngrok": "./scripts/start-ngrok.sh",
-    "serve:prod-stop": "sudo nginx -s stop",
     "lint": "eslint \"public/**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"public/**/*.{ts,tsx}\" --fix",
     "test": "jest",
