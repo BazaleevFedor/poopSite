@@ -1,24 +1,12 @@
 # poopSite
+Проект позволяет объединить несколько аккаунтов Google Диска через единую авторизацию, создавая общее облачное хранилище. Просто подключай несколько бесплатных аккаунтов и получай суммарное пространство без оплаты подписок.
 
-зависимости
-```bash
-npm install
-```
+[репа бека](https://github.com/TRUDOVIK/GoogleDriveMerge)
+[нейронки](https://github.com/TRUDOVIK/neuralModule)
 
+запуск прода на 8081 порту (nginx отдельно)
 ```bash
+npm i
 npm run build
-
 ./start-ngrok.sh
-```
-
-изменить порт (добавить флаг в package.json)
-```json
-"scripts": {
-    "start": "webpack serve --mode development --port 9000",
-}
-```
-
-разработка
-```bash
-npm start
 ```
