@@ -7,6 +7,7 @@ type FilesData = {
     mimeType: any;
     id: string;
     name: string;
+    thumbnailLink?: string;
 };
 
 export class filesStore {
@@ -32,6 +33,7 @@ export class filesStore {
     clear() {
         this.files = [];
         this.newFiles = [];
+        this.scans = [];
         this.chooseFilesId = [];
         this.nextPageToken = undefined;
         this.nextOwnerIndex = undefined;
@@ -110,6 +112,9 @@ export class filesStore {
         if (!request) alert('Добавьте гугл аккаунт');
 
         this._refreshStore();
+
+        actionFiles.getScans();
+
         if (this.files.length + this.newFiles.length < 40 && (this.nextPageToken || this.nextOwnerIndex)) {
             actionFiles.getFiles(false);
             return;
@@ -117,23 +122,15 @@ export class filesStore {
     }
 
     async _getScans() {
-        const options = {
-            pageSize: '40',
-            nextPageToken: this.nextPageToken,
-            owner: this.nextOwnerIndex,
-            parentFolder: '',
-            searchQuery: '',
-            isNewPage: '',
-            sortOrder: '',
-            nextOwnerIndex: '',
-        };
-        const request = await Ajax.getFiles(options);
+        for (let i = 0; i < this.newFiles.length; i++) {
+            const request = await Ajax.getScans(this.newFiles[i].thumbnailLink);
+            console.log(request);
+            if (request) {
+                this.scans.push(this.newFiles[i]);
+            }
 
-        this.scans = request?.fileDtos || [];
-
-        if (!request) alert('Добавьте гугл аккаунт');
-
-        this._refreshStore();
+            this._refreshStore();
+        }
     }
 
     async _getViewLink(options: any) {
