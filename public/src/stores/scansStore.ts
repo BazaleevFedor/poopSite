@@ -65,7 +65,7 @@ export class scansStore {
             if (!link) continue;
 
             const request = await Ajax.getScan(link);
-            if (request.is_document) {
+            if (request?.is_document) {
                 this.scans.push(files[i]);
             }
 
