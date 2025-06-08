@@ -12,8 +12,8 @@ type FilesData = {
 
 export class filesStore {
     files: FilesData[];
-    scans: FilesData[];
     newFiles: FilesData[];
+    scans: FilesData[];
     chooseFilesId: string[];
     private _callbacks: any[];
     private nextPageToken: string;
@@ -22,8 +22,8 @@ export class filesStore {
     constructor() {
         this._callbacks = [];
         this.files = [];
-        this.scans = [];
         this.newFiles = [];
+        this.scans = [];
         this.chooseFilesId = [];
         this.nextPageToken = undefined;
         this.nextOwnerIndex = undefined;
@@ -56,9 +56,6 @@ export class filesStore {
         switch (action.actionName) {
         case 'getFiles':
             await this._getFiles(action.options);
-            break;
-        case 'getScans':
-            await this._getScans();
             break;
         case 'getViewLink':
             await this._getViewLink(action.options);
@@ -113,23 +110,9 @@ export class filesStore {
 
         this._refreshStore();
 
-        actionFiles.getScans();
-
         if (this.files.length + this.newFiles.length < 40 && (this.nextPageToken || this.nextOwnerIndex)) {
             actionFiles.getFiles(false);
             return;
-        }
-    }
-
-    async _getScans() {
-        for (let i = 0; i < this.newFiles.length; i++) {
-            const request = await Ajax.getScans(this.newFiles[i].thumbnailLink);
-            console.log(request);
-            if (request) {
-                this.scans.push(this.newFiles[i]);
-            }
-
-            this._refreshStore();
         }
     }
 

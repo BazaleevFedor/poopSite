@@ -56,7 +56,6 @@ export class MainPage {
 
         if (userStore.userData.isAuth) {
             actionFiles.getFiles(true);
-            actionFiles.getScans();
             this._toggleBlur(false);
         } else {
             this._signOut();

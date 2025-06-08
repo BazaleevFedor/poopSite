@@ -95,7 +95,7 @@ class Ajax {
         }
     }
 
-    async getFiles(options: { searchQuery: string; nextPageToken: string; pageSize: string; sortOrder: string; nextOwnerIndex: string; parentFolder: string }) {
+    async getFiles(options: { pageSize: string; searchQuery?: string; nextPageToken?: string; sortOrder?: string; nextOwnerIndex?: string; parentFolder?: string }) {
         try {
             const response = await this._request(apiUrls.FILES_GET, RequestType.POST, JSON.stringify(options));
 
@@ -117,9 +117,9 @@ class Ajax {
         }
     }
 
-    async getScans(url: string) {
+    async getScan(url: string) {
         try {
-            const response = await fetch(`http://localhost:8000/detect?url=${url}`);
+            const response = await fetch(`http://localhost:8082/detect?url=${url}`);
 
             const data = await response.json();
             return data || null;

@@ -33,7 +33,7 @@ export class CardArea {
     private _addEventListeners() {
         this._view.addEventListener('dblclick', (e) => {
             const clickedCard = e.target as HTMLElement;
-            if (clickedCard.closest('.card') && !clickedCard.closest('.card__options')) {
+            if (clickedCard.closest('.card') && !clickedCard.closest('.card__options') && !clickedCard.closest('.swiper')) {
                 const cardId = clickedCard.closest('.card').getAttribute('data-tag');
                 actionFiles.getViewLink(cardId);
             }
@@ -41,7 +41,7 @@ export class CardArea {
 
         this._view.addEventListener('click', (e) => {
             const clickedCard = e.target as HTMLElement;
-            if (clickedCard.closest('.card') && !clickedCard.closest('.card__share')) {
+            if (clickedCard.closest('.card') && !clickedCard.closest('.card__share') && !clickedCard.closest('.swiper')) {
                 let cardId = clickedCard.closest('.card').getAttribute('data-tag');
                 const ctrlPressed = e.ctrlKey;
                 const shiftPressed = e.shiftKey;
