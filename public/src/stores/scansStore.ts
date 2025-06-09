@@ -76,9 +76,8 @@ export class scansStore {
     }
 
     async _getViewLink(options: any) {
-        console.log(1);
         if (this.scans[options.id].mimeType.includes('application/vnd.google-apps.folder')) {
-            window.location.href = `/folders?id=${this.scans[options.id].id}&owner=${this.scans[options.id].owner}`;
+            window.location.href = `/ffolders?id=${this.scans[options.id].id}&owner=${this.scans[options.id].owner}`;
             return;
         }
         const googleLink = await Ajax.getViewLink({ id: this.scans[options.id].id.toString() });

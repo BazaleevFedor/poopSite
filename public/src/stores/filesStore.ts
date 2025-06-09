@@ -118,7 +118,7 @@ export class filesStore {
 
     async _getViewLink(options: any) {
         if (this.files[options.id].mimeType.includes('application/vnd.google-apps.folder')) {
-            window.location.href = `/folders?id=${this.files[options.id].id}&owner=${this.files[options.id].owner}`;
+            window.location.href = `/ffolders?id=${this.files[options.id].id}&owner=${this.files[options.id].owner}`;
             return;
         }
         const googleLink = await Ajax.getViewLink({ id: this.files[options.id].id.toString() });
